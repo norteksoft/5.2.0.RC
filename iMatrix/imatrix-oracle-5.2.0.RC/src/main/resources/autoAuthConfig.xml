@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+		<function path="/acs/index.jsp" ></function>
+		<function path="/acs/log/log!topkOnline.action" ></function>
+		
+		<function path="/acs/common/do-upload.htm" ></function>
+		<function path="/acs/engine/upload!save.htm" ></function>
+		<function path="/acs/common/save-accessory.htm" ></function>
+		<function path="/acs/index.jsp"  ></function>
+		
+		<function path="/portal/index/user!validateOldPassword.htm" ></function>
+		<function path="/portal/index/user.htm" ></function>
+		<function path="/portal/index/user!save.htm" ></function>
+		<function path="/portal/index/index!getThemeByUser.htm" ></function>
+		<function path="/portal/index.jsp"  ></function>
+		<function path="/portal/public/public-auto.htm" ></function>
+		<function path="/portal/public/public-info.htm" ></function>
+		<function path="/export-data.action" systemCode="portal"></function>
+		
+		<!-- struts-plugin.xml中定义的插件 -->
+		<function path="/portal/my-message-error.action" ></function>
+		<function path="/portal/login.action" ></function>
+		<function path="/portal/update-password.action" ></function>
+		<function path="/portal/check-login-password.action" ></function>
+		<function path="/portal/update-old-password.action" ></function>
+		<function path="/portal/check-old-password.action" ></function>
+		<function path="/portal/load-tree.action" ></function>
+		<function path="/portal/autoAuth.action" ></function>
+		<function path="/portal/popTree.action" ></function>
+		<function path="/portal/removeOptionTree.action" ></function>
+		<function path="/portal/custom-tree.action" ></function>
+		<function path="/portal/format.action" ></function>
+		<function path="/portal/get-data.action" ></function>
+		<function path="/portal/show-data-selection.action" ></function>
+		<function path="/portal/controlType.action" ></function>
+		<function path="/portal/querySetting.action" ></function>
+		<function path="/portal/export-data.action" ></function>
+		
+		<function path="/task/task/task!overtimeTask.htm" ></function>
+		<function path="/task/task/task!personalTasks.htm" ></function>
+		<function path="/task/task/task!taskMsg.htm" ></function>
+		<function path="/task/index.jsp" ></function>
+		<function path="/task/task/task-info.htm" ></function>
+		<function path="/task/task/message-task.htm" ></function>
+		<function path="/task/task/task-type-portal.htm" ></function>
+		<function path="/task/task/task-type-tree-portal.htm" ></function>
+		<function path="/task/task/task-detail-portal.htm" ></function>
+		
+		<function path="/wf/loan/loan!saveAccessory.htm" ></function>
+		<function path="/wf/engine/office-template!upload.htm" ></function>
+		<function path="/wf/engine/office!input.htm" ></function>
+		<function path="/wf/engine/upload!save.htm" ></function>
+		<function path="/wf/index.jsp"  ></function>
+		
+		<function path="/bs/index.jsp"></function>
+		
+		<!--错误页面500,403等 不需要systemCode -->
+		<function path="/portal/exception-handle.action"></function>
+</functions>

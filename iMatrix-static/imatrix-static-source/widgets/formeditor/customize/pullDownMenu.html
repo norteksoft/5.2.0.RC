@@ -1,0 +1,146 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	    <title>下拉菜单属性</title>
+	    <style type="text/css">
+	      body {
+	      font-size:12px;
+	      margin: 0px;
+	      background-color:#F0F0EE;
+	      overflow: hidden;
+	      }
+	      td {
+	      font-size:12px;
+	      padding: 3px;
+	      }
+	     
+	    </style>
+	    <script type="text/javascript" src="../../../js/jquery.js"></script>
+	    <script type="text/javascript" src="../pullDownMenu.js"></script>
+		<script type="text/javascript">
+			var KE = parent.KE;
+			location.href.match(/\?id=([\w-]+)/i);
+			var id = RegExp.$1;
+			KE.event.ready(function() {
+				var g = KE.g[id];  
+				var startNode =g.keRange.startNode;
+				if(startNode.nodeName!="SELECT"){
+					startNode=startNode.parentNode.parentNode;
+				}
+				if(startNode.name!=undefined){
+					if(startNode.getAttribute("name")!=null)$("#txtName").attr("value",startNode.getAttribute("name"));
+					if(startNode.getAttribute("child")!=null)$("#txtChild").attr("value",startNode.getAttribute("child"));
+					if(startNode.getAttribute("title")!=null)$("#txtTitle").attr("value",startNode.getAttribute("title"));
+					if(startNode.getAttribute("dataType")!=null)$("#SfieldType").attr("value",startNode.getAttribute("dataType"));
+					if(startNode.getAttribute("size")>0)$("#txtLines").attr("value",startNode.getAttribute("size"));
+					if(startNode.getAttribute("style")!=null){
+						$("#txtWidth").attr("value",startNode.style.width.substring(0,startNode.style.width.indexOf("p")));
+					}
+					var select = document.getElementById("cmbText");
+					for(var i=1;i<startNode.length;i++){
+						select.options.add(new Option(startNode.options[i].value,startNode.options[i].text ));
+						if(startNode.options[i].selected){
+							$("#txtSelValue").attr("value",startNode.options[i].value);
+							$("#txtText").attr("value",startNode.options[i].value);
+							$('"'+"#cmbText option[index='"+(i-1)+"']"+'"').attr("selected", true);  
+						}
+					}
+				}
+				
+			}, window, document);
+
+			
+			function mytip(item)
+			{
+			  if($("#"+item).css("display")=="none")
+				  $("#"+item).css("display","block");
+			  else
+				  $("#"+item).css("display","none");   
+			}
+		</script>
+	</head>
+	<body style="overflow: hidden">
+					<table width="100%">
+						<tr>
+							<td style="width: 20%;">控件名称</td>
+							<td style="width: 30%;" align="left">
+								<input id="txtName" type="text" maxlength="20">
+							</td>
+							<td align="left">字段名由英文母开始,数字和下划线组成.</td>
+						</tr>
+						<tr>
+							<td >控件标题</td>
+							<td >
+								<input id="txtTitle" type="text" maxlength="50">
+							</td>
+							<td>非空且不能包含英文的"()[]"</td>
+						</tr>
+						<tr>
+								<td>关联子菜单名称</td>
+								<td >
+					             	<input id="txtChild" type="text" size="20">
+				                </td>
+				                <td >
+					                <a href="#" onClick="mytip('tip')">说明</a>
+					                <div id="tip" style="display:none">若关联子菜单，需要子下拉菜单设置的时候在每个选项后加上特殊标记以记录与父菜单关系，形如“子菜单项目|父菜单项目”，则父菜单发生变化，子菜单会随之自动刷新筛选。</div>
+				                </td>
+				             </tr>
+							<tr>
+								<td nowrap>初始选定</td>
+								<td colSpan="3"><input id="txtSelValue" style="BACKGROUND-COLOR: buttonface" type="text" readonly></td>
+							</tr>
+							<tr>
+						    	<td>字段类型：</td>
+						    	<td>
+						    		<select id="SfieldType" name="SfieldType">
+						   				<OPTION selected value=TEXT>文本</OPTION>
+										<OPTION value=DATE>日期</OPTION>
+										<OPTION value=TIME>时间</OPTION>
+										<OPTION value=NUMBER>数字</OPTION>
+										<OPTION value=AMOUNT>小数</OPTION>
+						   			</select>
+						    	</td>
+					    	</tr>
+							<tr>
+								<td nowrap>控件高度</td>
+								<td nowrap>
+									<input id="txtLines" type="text" size="10" value="">&nbsp;行
+								</td>
+								<td nowrap>控件宽度
+									<input id="txtWidth" type="text" size="10" value="">&nbsp;px
+								</td>
+							</tr>
+						</table>
+					<br>
+					<hr style="POSITION: absolute">
+					<span style="LEFT: 10px; POSITION: relative; TOP: -7px;background-color: F0F0EE" class="BackColor">&nbsp;
+						列表值&nbsp;</span>
+					<table width="100%">
+						<tr>
+							<td width="70%">下拉菜单项目<br>
+								<input id="txtText" style="WIDTH: 100%" type="text" name="txtText">
+							</td>
+							<td vAlign="bottom" align="right">
+								<input onclick="Add();" type="button" value="新增">&nbsp;&nbsp;
+								<input onclick="Modify();" type="button"  value="修改">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<select id="cmbText" style="WIDTH: 300px" onchange="$('#cmbText').get(0).selectedIndex = this.selectedIndex;Select(this);"
+									size="5" name="cmbText"></select>
+							</td>
+							<td vAlign="bottom">
+								<input style="WIDTH: 100%" onclick="Move(-1);" type="button" value="上移">
+								<br>
+								<input style="WIDTH: 100%" onclick="Move(1);" type="button" value="下移">
+							</td>
+						</tr>
+						<TR>
+							<TD colSpan="2">
+								<INPUT onclick="SetSelectedValue();" type="button"  value="设为初始化时选定值">&nbsp;&nbsp;
+								<input onclick="Delete();" type="button"  value="删除"></TD>
+						</TR>
+					</table>
+	</body>
+</html>

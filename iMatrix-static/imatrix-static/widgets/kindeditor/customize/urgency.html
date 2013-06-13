@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>紧急程度控件</title>
+    <style type="text/css" >
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		KE.event.ready(function() {
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.nodeName!="SELECT"){
+				startNode=startNode.parentNode.parentNode;
+			}
+			if(startNode.name!=undefined){
+				var select = document.getElementById("urgency_select");
+				for(var i=1;i<startNode.length;i++){
+					select.options.add(new Option(startNode.options[i].text,startNode.options[i].value));
+				}
+			}
+			order();
+		}, window, document);
+		//增加
+		var index = 0;
+		function Add(){
+			var value = document.getElementById( "add_input" ) ;
+			var select = document.getElementById( "urgency_select" ) ;
+			select.options.add(new Option(value.value,index));
+			index++;
+			value.value="";
+		}
+
+		function deleteOption(){
+			var select = document.getElementById( "urgency_select" ) ;
+			if(select.options.length>0){
+				if(select.selectedIndex!=-1){
+					select.remove(select.selectedIndex);
+				}
+			}
+		}
+
+		function order(){
+			var sel = document.getElementById("displayorder");
+			for(var i=0;i<30;i++){
+				sel.options[i] = new Option(i+1,i+1,false,true);
+			}
+		}
+
+		function display(){
+			if(document.getElementById("displaytip").style.display=="none"){		
+				document.getElementById("displaytip").style.display="block";
+			}else{
+				document.getElementById("displaytip").style.display="none";
+			}
+		}
+	</script>
+  </head>
+  <body>
+      <table >
+    <tr>
+      <td colspan="3" style="text-align:left">请输入紧急程度，最先输入的值表示紧急程度最高</td>
+    </tr>
+    <tr>
+      <td  style="text-align:right">表单紧急程度：</td>
+      <td ><input type="text" name="add_input" id="add_input" style="width: 150px"/></td>
+      <td ><input type="button" name="add_button" id="add_button" value="增加" onclick="Add();"/></td>
+    </tr>
+    <tr>
+      <td rowspan="4" align="right" valign="top">已有选项：</td>
+      <td rowspan="4" valign="top"><select name="urgency_select" size="6" multiple="multiple" id="urgency_select" style="width: 150px">
+      </select></td>
+      <td style="border:none"><input type="button" name="delete_button" id="delete_button" value="删除" onclick="deleteOption();"/></td>
+    </tr>
+    <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+    <tr>
+     	<td align="right">列表显示：</td>
+     	<td><input onclick="display()" name="display" id="display" type="checkbox" value="1"/>在列表中显示 </td>
+     	<td></td>
+     </tr>
+      <tr id="displaytip" style="display:none;">
+     	<td align="right">显示位置：</td>
+     	<td>第<select id="displayorder"></select>列 </td>
+     	<td></td>
+     </tr>
+  </table>
+  </body>
+</html>

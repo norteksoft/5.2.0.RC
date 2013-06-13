@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>日期控件</title>
+    <style type="text/css">
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+    <script type="text/javascript" src="../../../js/jquery.js"></script>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		$(function() {
+			var OengName,Oname,dateformat,display,order_;
+			var startNode = KE.plugin['TimeForm'].getSelectedNode(id);
+			if(startNode!=undefined && startNode != null){
+				OengName = startNode.name;
+				Oname = startNode.getAttribute("title");
+				dateformat = startNode.getAttribute("dateformat") ;
+				display = startNode.getAttribute("display");
+				order_ = startNode.getAttribute("order");
+			}
+			if(OengName!=undefined){
+				$("#OengName").attr("value",OengName);
+				if(Oname!=undefined)$("#Oname").attr("value",Oname);
+			}
+			
+			if(display!=undefined && display=='true'){
+				$("#display").attr("checked",true);
+				$("#displaytip").show();
+			}else{
+				$("#displaytip").hide();
+			}
+
+			if(dateformat==undefined || dateformat==null) dateformat = "yyyy-MM-dd";
+			formatTime(dateformat);
+			
+			if(order_==undefined || order_==null) order_=0;
+			order(order_);
+		}, window, document);
+
+		
+
+		function formatTime(format){
+			var html;
+			if(format=="yyyy-MM-dd"){
+				html = '<option  selected="selected"  value="yyyy-MM-dd">yyyy-MM-dd</option><option value="yyyy-MM-dd HH:mm">yyyy-MM-dd HH:mm</option>';
+				$(html).appendTo($("#dateformat"));
+			}else{
+				html = '<option value="yyyy-MM-dd">yyyy-MM-dd</option><option selected="selected" value="yyyy-MM-dd HH:mm">yyyy-MM-dd HH:mm</option>';
+				$(html).appendTo($("#dateformat"));
+			}
+		}
+		
+		function order(index){
+			for(var i=0;i<30;i++){
+				if(index==i){
+					$("<option value='"+i+"' selected='selected' >"+i+"</option>").appendTo($("#displayorder"));
+				}else{
+					$("<option value='"+i+"'>"+i+"</option>").appendTo($("#displayorder"));
+				}
+			}
+		}
+
+		function display(){
+			$("#displaytip").toggle();
+		}
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+      		<td>字段名：</td>
+      		<td><input  type="text" name="OengName" id="OengName" value="" maxlength="20"/></td>
+      		<td>字段名由英文母开始,数字和下划线组成.</td>
+     </tr>
+      <tr>
+      		<td>标题：</td>
+      		<td><input  type="text" name="Oname" id="Oname" value="" maxlength="50"/></td> 
+      		<td>非空且不能包含英文的"()[]"</td>
+      </tr>
+      <tr>
+      		<td>日期格式：</td> 
+      		<td><select id="dateformat" >
+      			
+      		</select></td>
+      		<td></td> 
+      </tr>
+      <tr>
+     	<td align="right">列表显示：</td>
+     	<td><input onclick="display()" name="display" id="display" type="checkbox" value="1"/>在列表中显示 </td>
+     	<td></td>
+     </tr>
+      <tr id="displaytip" style="display:none;">
+     	<td align="right">显示位置：</td>
+     	<td>第<select id="displayorder"></select>列 </td>
+     	<td></td>
+     </tr>
+    </table>
+  </body>
+</html>

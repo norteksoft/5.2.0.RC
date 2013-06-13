@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>acsTags</short-name>
+	<uri>http://www.norteksoft.com/acs/tags</uri>
+	<description>
+       
+	</description>
+
+	<tag>
+		<name>tree</name>
+		<tag-class>com.norteksoft.tags.tree.TagsHandle</tag-class>
+		<description>
+            
+		</description>
+
+
+		<attribute>
+			<name>treeType</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Data Type : ENUM; 
+				Enumerated Values : COMPANY | DEPARTMENT_TREE | GROUP_TREE | MAN_DEPARTMENT_TREE | MAN_GROUP_TREE | MAN_DEPARTMENT_GROUP_TREE
+			</description>
+		</attribute>
+		<attribute>
+			<name>multiple</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Data Type : ENUM;
+				Enumerated Values : true | false;
+				Default Value : false
+			</description>
+		</attribute>
+		<attribute>
+			<name>treeId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>defaultable</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>inputId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>departmentDisplayType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Data Type : ENUM; 
+				Enumerated Values : CODE | NAME | SHORTTITLE | SUMMARY
+			</description>
+		</attribute>
+		<attribute>
+			<name>userWithoutDeptVisible</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Data Type : ENUM;
+				Enumerated Values : true | false;
+				Default Value : false
+			</description>
+		</attribute>
+	</tag>
+
+     
+</taglib>

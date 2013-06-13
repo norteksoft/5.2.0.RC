@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>多行文本</title>
+    <style type="text/css" >
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 2px;
+      }
+     
+    </style>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		KE.event.ready(function() {
+			var Mname = KE.$('Mname', document);
+			var MengName = KE.$('MengName', document);
+			var Mrow = KE.$('Mrow', document);
+			var MfieldType = KE.$('MfieldType', document);
+
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.name!=undefined){
+				MengName.value=startNode.name;
+				if(startNode.getAttribute("chName")!=undefined)Mname.value=startNode.getAttribute("chName");
+				if(startNode.rows!=undefined)Mrow.value=startNode.rows;
+				if(startNode.getAttribute("dataType")!=undefined)MfieldType.value=startNode.getAttribute("dataType");
+			}
+		}, window, document);
+
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+      		<td align="right">字段名称：</td>
+      		<td><input name="MengName"  id="MengName" type="text" /></td>
+      		<td>字段名由英文母开始,数字和下划线组成.</td>
+      </tr>
+      <tr>
+      		<td align="right">&nbsp;&nbsp;标题：</td>
+      		<td><input name="Mname" id="Mname"type="text" /></td>
+      		<td>非空且不能包含英文的"()[]"</td>
+      </tr>
+      <tr>
+      		<td align="right">&nbsp;&nbsp;行数：</td>
+      		<td><input name="Mrow" id="Mrow" type="text" /></td>
+      		<td>必须为数字</td>
+      </tr>
+   			
+    </table>
+    <select id="MfieldType" name="MfieldType" style="display: none;">
+   				<option value="TEXT">文本</option>
+   			</select>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<html>
+<head>
+ 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>日期控件</title>
+</head>
+<body>
+<div style="margin: 20px;">
+	<p>组件：日期控件</p>
+    <p>字段名：<input onblur=""  type="text"  id="OengName"  value=""/> </p>
+	<p>标题：<input onblur="" type="text" name="Oname" id="Oname" value=""/> </p>
+	<p>日期格式：<select id="dateformat" ></select> </p>
+	<p>列表显示：<input name="display" id="display" type="checkbox"   onclick="$('#displaytip').toggle();"/></p>
+	<p id="displaytip" > 显示位置：第<select id="displayorder">
+									</select>
+									列
+	</p>
+	<p  class="buttonP"><a href="#" id="upd" class="btnStyle " onclick="ok()">确定</a>
+		<a href="#" id="upd" class="btnStyle " onclick="cancel()">取消</a>
+	</p>
+	
+	<script type="text/javascript">
+		function cancel(){
+			init();
+		}
+		function ok(){
+			KE.plugin['TimeForm'].update(id);
+		}
+	
+		function order(index){
+			for(var i=0;i<30;i++){
+				if(index==i){
+					$("<option value='"+i+"' selected='selected' >"+i+"</option>").appendTo($("#displayorder"));
+				}else{
+					$("<option value='"+i+"'>"+i+"</option>").appendTo($("#displayorder"));
+				}
+			}
+		}
+		function display(){
+			$("#displaytip").toggle();
+		}
+
+		function formatTime(format){
+			var html;
+			if(format=="yyyy-MM-dd"){
+				html = '<option  selected="selected"  value="yyyy-MM-dd">yyyy-MM-dd</option><option value="yyyy-MM-dd HH:mm">yyyy-MM-dd HH:mm</option>';
+				$(html).appendTo($("#dateformat"));
+			}else{
+				html = '<option value="yyyy-MM-dd">yyyy-MM-dd</option><option selected="selected" value="yyyy-MM-dd HH:mm">yyyy-MM-dd HH:mm</option>';
+				$(html).appendTo($("#dateformat"));
+			}
+		}
+
+		function init(){
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			
+			var title = $(startNode).attr("chName");
+			var fieldName = $(startNode).attr("name");
+			var value = $(startNode).attr("value");
+			var Onumber = $(startNode).attr("maxlength");;
+			var OfieldType = $(startNode).attr("dataType");;
+			var display = $(startNode).attr("display");
+			var order_ = $(startNode).attr("order");
+			var dateformat = $(startNode).attr("dateformat");
+
+			
+			$("#OengName").attr("value",fieldName);
+			$("#Oinit").attr("value",value);
+			$("#Oname").attr("value",title);
+			$("#OfieldType").attr("value",OfieldType);
+			$("#Onumber").attr("value",Onumber);
+			if(display){
+				$("#display").attr("checked",display);
+				$("#displaytip").show();
+			}else{
+				$("#displaytip").hide();
+			}
+
+			if(dateformat==undefined || dateformat==null) dateformat = "yyyy-MM-dd";
+			formatTime(dateformat);
+			
+			order(order_);
+			if(KE.lang["formMode"] == "develop" ){
+				develop();
+			}
+		}
+		init();
+		
+	</script>
+</div>
+</body>
+</html>

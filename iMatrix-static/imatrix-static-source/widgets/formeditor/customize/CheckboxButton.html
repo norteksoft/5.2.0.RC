@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>多选按钮</title>
+    <style type="text/css" >
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		KE.event.ready(function() {
+			var Rname = KE.$('Rname', document);
+			var RengName = KE.$('RengName', document);
+			var Rvalue = KE.$('Rvalue', document);
+			var Rcheck = KE.$('Rcheck', document);
+			
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.name!=undefined){
+				RengName.value=startNode.name;
+				if(startNode.getAttribute("title")!=undefined)Rname.value=startNode.getAttribute("title");
+				if(startNode.value!=undefined)Rvalue.value=startNode.value;
+				if(startNode.checked==true)Rcheck.checked=true;
+			}
+		}, window, document);
+
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+      		<td align="right">字段名：</td> 
+      		<td><input  name="RengName" id="RengName" type="text" maxlength="20"/></td> 
+      		<td>字段名由英文母开始,数字和下划线组成.</td>
+      </tr>
+      <tr>
+      		<td align="right">标题：</td>
+      		<td><input name="Rname" id="Rname" type="text" maxlength="50"/></td>
+			<td>非空且不能包含英文的"()[]"</td>
+      </tr>
+      <tr>
+      		<td align="right">选定值：</td> 
+      		<td><input name="Rvalue" id="Rvalue" type="text"/></td> 
+      		<td><input name="Rcheck" id="Rcheck" type="checkbox"/>已勾选</td>
+      </tr>
+    </table>
+  </body>
+</html>

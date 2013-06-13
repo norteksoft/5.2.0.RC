@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>计算控件属性</title>
+    <style type="text/css">
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+    <script type="text/javascript" src="../../../js/jquery.js"></script>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		var temp = "";
+		KE.event.ready(function() {
+			var componentName = KE.$('componentName', document);
+			var componentTitle = KE.$('componentTitle', document);
+			var computational = KE.$('computational', document);
+			var precision = KE.$('precision', document);
+			var fontSize = KE.$('fontSize', document);
+			var componentWidth = KE.$('componentWidth',document);
+			var componentHeight = KE.$('componentHeight',document);
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.name!=undefined){
+				if(startNode.getAttribute("title")!=null)componentTitle.value=startNode.getAttribute("title");
+				if(startNode.getAttribute("computational")!=null) computational.value=startNode.getAttribute("computational");
+				if(startNode.getAttribute("prec")!=null) precision.value=startNode.getAttribute("prec");
+				if(startNode.getAttribute("name")!=null) componentName.value=startNode.getAttribute("name");
+				if(startNode.getAttribute("style")!=null){
+					fontSize.value=startNode.style.fontSize.substring(0,startNode.style.fontSize.indexOf("p"));
+					componentWidth.value=startNode.style.width.substring(0,startNode.style.width.indexOf("p"));
+					componentHeight.value=startNode.style.height.substring(0,startNode.style.height.indexOf("p"));
+				}
+			}
+		}, window, document);
+
+		function mytip(item)
+		{
+		  if($("#"+item).css("display")=="none")
+			  $("#"+item).css("display","block");
+		  else
+			  $("#"+item).css("display","none");   
+		}
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+	     <tr >
+	      		<td align="right">控件名称：</td>
+	      		<td><input  type="text" name="componentName" id="componentName" value="" maxlength="20"/></td>
+	      		<td>字段名由英文母开始,数字和下划线组成.</td>
+	      </tr>
+	      <tr >
+	      		<td align="right">控件标题：</td>
+	      		<td><input  type="text" name="componentTitle" id="componentTitle" value="" maxlength="50"/></td>
+	      		<td>非空且不能包含英文的"()[]"</td>
+	      </tr>
+	     <tr>
+	     	<td align="right">计算公式：</td>
+	     	<td><textArea name="computational" id="computational" rows="3"></textArea></td>
+	     	<td >
+             <a href="#" onClick="mytip('tip')">说明</a>
+             <div style="font-size: 10pt;font-family:宋体;display:none;" id="tip">
+              计算公式支持+ - * / ^和英文括号以及特定计算函数，例如：(数值1+数值2)*数值3-ABS(数值4)<br>
+              其中数值1、数值2等为表单控件名称。<br>
+              <b>当前版本所支持的计算函数：</b><br>
+              1、MAX(数值1,数值2,数值3...) 输出最大值,英文逗号分割;<br>
+              2、MIN(数值1,数值2,数值3...) 输出最小值,英文逗号分割;<br>
+              3、ABS(数值1) 输出绝对值;<br>
+              4、AVG(数值1,数值2,数值3) 输出平均值;<br>
+              </div>
+            </td>
+	     </tr>
+	     <tr>
+	     	<td align="right">计算结果精度：</td>
+	   		<td><input  type="text" name="precision" id="precision" value="" /></td>
+	   		<td>默认保留小数点后4位</td>
+	     </tr>
+	     <tr>
+	     	<td align="right">字体大小：</td>
+	   		<td><input  type="text" name="fontSize" id="fontSize" value="" />&nbsp;&nbsp;px</td>
+	     </tr>
+	     <tr>
+	     	<td align="right">控件宽度：</td>
+	   		<td><input  type="text" name="componentWidth" id="componentWidth" value="" />&nbsp;&nbsp;px</td>
+	     </tr>
+	     <tr>
+	     	<td align="right">控件高度：</td>
+	   		<td><input  type="text" name="componentHeight" id="componentHeight" value="" />&nbsp;&nbsp;px</td>
+	     </tr>
+    </table>
+  </body>
+</html>

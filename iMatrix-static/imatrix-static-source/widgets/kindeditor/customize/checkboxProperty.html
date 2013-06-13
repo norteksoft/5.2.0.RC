@@ -1,0 +1,42 @@
+<html>
+<head>
+ 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>多选按钮</title>
+</head>
+<body>
+<div style="margin: 20px;">
+	<p>组件：多选按钮</p>
+	<P>字段名：<INPUT id="RengName" value="" name="RengName"> </P>
+	<P>标题：<INPUT id="Rname" value="" name="Rname"> </P>
+	<P>选定值：<INPUT id="Rvalue" value="" name="Rvalue"> </P>
+	<p><INPUT id="Rcheck" type="checkbox" name="Rcheck">已勾选</p>
+	<p><a href="#" id="upd" class="btnStyle " onclick="ok()">确定</a>
+		<a href="#" id="upd" class="btnStyle " onclick="cancel()">取消</a>
+	</p>
+	<script type="text/javascript">
+		function cancel(){
+			init();
+		}
+		function ok(){
+			KE.plugin['CheckboxButton'].update(id);
+		}
+		function init(){
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			
+			var title = $(startNode).attr("chName");
+			var fieldName = $(startNode).attr("name");
+			var value = $(startNode).attr("value");
+			var Rcheck = $(startNode).attr("checked");;
+			
+			$("#RengName").attr("value",fieldName);
+			$("#Rvalue").attr("value",value);
+			$("#Rname").attr("value",title);
+			$("#Rcheck").attr("checked",Rcheck);
+		}
+		init();
+		
+	</script>
+</div>
+</body>
+</html>

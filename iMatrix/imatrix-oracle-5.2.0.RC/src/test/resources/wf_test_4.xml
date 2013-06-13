@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="测试" xmlns="http://jbpm.org/4.0/jpdl">
+  <on event="start">
+    <event-listener class="com.norteksoft.wf.engine.core.ProcessStartListener"/>
+  </on>
+  <on event="end">
+    <event-listener class="com.norteksoft.wf.engine.core.ProcessEndListener"/>
+  </on>
+  <extend>
+    <basic-properties>
+      <process-code>wf_test_4</process-code>
+      <admin>肖箭[xiaojian]</admin>
+      <form-name>文档打印</form-name>
+      <form-version>1</form-version>
+      <form-code>DMS_DOCUMENT_PRINT</form-code>
+      <process-type-name>文档管理</process-type-name>
+      <process-type-id>91</process-type-id>
+      <system-name>文档系统</system-name>
+      <system-id>135</system-id>
+      <creator>xiaojian</creator>
+      <created-time>2012-06-08 17:24:54</created-time>
+      <state/>
+    </basic-properties>
+    <access-right>
+      <view-flow-history>
+        <user-condition/>
+      </view-flow-history>
+    </access-right>
+    <parameter-setting>
+      <do-task-url>
+        <url/>
+        <parameter-name>taskId</parameter-name>
+      </do-task-url>
+      <form-view-url>
+        <url/>
+        <parameter-name>id</parameter-name>
+      </form-view-url>
+      <process-start-url>
+        <url/>
+        <parameter-name>processName</parameter-name>
+        <parameter-value>测试</parameter-value>
+      </process-start-url>
+      <process-urgen-url>
+        <url/>
+        <parameter-name>id</parameter-name>
+      </process-urgen-url>
+      <delete-instance-bean/>
+    </parameter-setting>
+  </extend>
+  <start g="387,59,46,47" name="start">
+    <transition name="transitionUI7" to="会签发起">
+      <event-listener class="com.norteksoft.wf.engine.core.TransitionListener"/>
+      <extend>
+        <graphic-infor>
+          <from-joint>bottom</from-joint>
+          <to-joint>up</to-joint>
+          <coordinati>410,106:412,147:391,126.5,100,36</coordinati>
+          <line-type>0</line-type>
+        </graphic-infor>
+      </extend>
+    </transition>
+  </start>
+  <end name="end3" g="389,427,46,47"/>
+  <task name="会签发起" g="372,147,80,40">
+    <assignment-handler class="com.norteksoft.wf.engine.core.AssignmentHandler"/>
+    <on event="start">
+      <event-listener class="com.norteksoft.wf.engine.core.StartEventListener"/>
+    </on>
+    <on event="end">
+      <event-listener class="com.norteksoft.wf.engine.core.EndEventListener"/>
+    </on>
+    <extend>
+      <graphic-infor>
+        <text-coordinati>5,8,70,38</text-coordinati>
+      </graphic-infor>
+      <automatically-filled-fields/>
+      <basic-properties>
+        <task-code>task_1</task-code>
+        <task-name/>
+        <processing-mode more-transactor="false" submit-name="提交">编辑式</processing-mode>
+        <remark/>
+      </basic-properties>
+      <transactor-settings>
+        <user-condition>${documentCreator}</user-condition>
+        <more-transactor>false</more-transactor>
+      </transactor-settings>
+      <right-settings>
+        <edit-right/>
+        <view-opinion-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-opinion-right>
+        <edit-opinion-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </edit-opinion-right>
+        <must-fill-opinion-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </must-fill-opinion-right>
+        <view-meeting-result-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-meeting-result-right>
+        <view-vote-result-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-vote-result-right>
+        <view-flow-history-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-flow-history-right>
+        <print-form-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </print-form-right>
+        <official-text-right>
+          <create-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+            <offical-template/>
+          </create-right>
+          <edit-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+            <retain-trace>false</retain-trace>
+            <view-trace>false</view-trace>
+          </edit-right>
+          <delete-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </delete-right>
+          <view-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+            <view-trace>false</view-trace>
+          </view-right>
+          <download-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </download-right>
+          <print-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </print-right>
+        </official-text-right>
+        <attachment-right>
+          <add-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </add-right>
+          <delete-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </delete-right>
+          <download-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </download-right>
+        </attachment-right>
+        <delete-right>
+          <user-condition/>
+        </delete-right>
+      </right-settings>
+    </extend>
+    <transition name="transitionUI10" to="会签">
+      <event-listener class="com.norteksoft.wf.engine.core.GeneralTransitionListener"/>
+      <extend>
+        <graphic-infor>
+          <from-joint>bottom</from-joint>
+          <to-joint>up</to-joint>
+          <coordinati>412,187:412,237:392,212,100,20</coordinati>
+          <line-type>0</line-type>
+        </graphic-infor>
+        <basic-properties>
+          <remark/>
+          <is-original-user>false</is-original-user>
+        </basic-properties>
+        <additional-properties/>
+        <automatically-filled-fields/>
+      </extend>
+    </transition>
+  </task>
+  <task name="会签" g="372,237,80,40">
+    <assignment-handler class="com.norteksoft.wf.engine.core.AssignmentHandler"/>
+    <on event="start">
+      <event-listener class="com.norteksoft.wf.engine.core.StartEventListener"/>
+    </on>
+    <on event="end">
+      <event-listener class="com.norteksoft.wf.engine.core.EndEventListener"/>
+    </on>
+    <extend>
+      <graphic-infor>
+        <text-coordinati>5,8,70,38</text-coordinati>
+      </graphic-infor>
+      <automatically-filled-fields/>
+      <basic-properties>
+        <task-code>task_2</task-code>
+        <task-name/>
+        <processing-mode more-transactor="true" approve-name="同意" refuse-name="不同意" add-counter-name="加签" del-counter-name="减签" pass-rate="100">会签式</processing-mode>
+        <remark/>
+      </basic-properties>
+      <transactor-settings>
+        <user-condition>${department} operator.text.et '${documentCreatorDepartment}'</user-condition>
+        <additional-condition>
+          <only-in-creator-department>false</only-in-creator-department>
+          <with-creator-department>false</with-creator-department>
+          <select-one-from-multiple>false</select-one-from-multiple>
+        </additional-condition>
+        <more-transactor>true</more-transactor>
+      </transactor-settings>
+      <right-settings>
+        <edit-right/>
+        <view-opinion-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-opinion-right>
+        <edit-opinion-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </edit-opinion-right>
+        <must-fill-opinion-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </must-fill-opinion-right>
+        <view-meeting-result-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-meeting-result-right>
+        <view-vote-result-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-vote-result-right>
+        <view-flow-history-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </view-flow-history-right>
+        <print-form-right>
+          <condition-set>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </condition-set>
+        </print-form-right>
+        <official-text-right>
+          <create-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+            <offical-template/>
+          </create-right>
+          <edit-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+            <retain-trace>false</retain-trace>
+            <view-trace>false</view-trace>
+          </edit-right>
+          <delete-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </delete-right>
+          <view-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+            <view-trace>false</view-trace>
+          </view-right>
+          <download-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </download-right>
+          <print-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </print-right>
+        </official-text-right>
+        <attachment-right>
+          <add-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </add-right>
+          <delete-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </delete-right>
+          <download-right>
+            <type>app.unallow</type>
+            <condition>true</condition>
+          </download-right>
+        </attachment-right>
+        <delete-right>
+          <user-condition/>
+        </delete-right>
+      </right-settings>
+    </extend>
+    <transition name="transitionUI14" to="判断11">
+      <extend>
+        <graphic-infor>
+          <from-joint>bottom</from-joint>
+          <to-joint>up</to-joint>
+          <coordinati>412,277:413,311:392.5,294,100,20</coordinati>
+          <line-type>0</line-type>
+        </graphic-infor>
+      </extend>
+    </transition>
+  </task>
+  <decision name="判断11" g="389,311,48,48">
+    <handler class="com.norteksoft.wf.engine.core.DecisionHandler"/>
+    <extend>
+      <graphic-infor>
+        <text-coordinati>-20,51,88,38</text-coordinati>
+      </graphic-infor>
+    </extend>
+    <transition name="transitionUI16" to="end3">
+      <event-listener class="com.norteksoft.wf.engine.core.GeneralTransitionListener"/>
+      <extend>
+        <graphic-infor>
+          <from-joint>bottom</from-joint>
+          <to-joint>up</to-joint>
+          <coordinati>413,359:412,427:413,383,100,36:410.5,391</coordinati>
+          <line-type>0</line-type>
+        </graphic-infor>
+        <basic-properties>
+          <remark/>
+          <condition>${countersignatureAgreePercentage} operator.number.ge 60</condition>
+          <is-original-user>false</is-original-user>
+        </basic-properties>
+        <additional-properties/>
+        <automatically-filled-fields/>
+      </extend>
+    </transition>
+    <transition name="transitionUI18" to="会签发起">
+      <event-listener class="com.norteksoft.wf.engine.core.GeneralTransitionListener"/>
+      <extend>
+        <graphic-infor>
+          <from-joint>right</from-joint>
+          <to-joint>right</to-joint>
+          <coordinati>437,335:452,167:437,241,100,36:578,216</coordinati>
+          <line-type>1</line-type>
+        </graphic-infor>
+        <basic-properties>
+          <remark/>
+          <condition>${countersignatureDisagreePercentage} operator.number.gt 40</condition>
+          <is-original-user>false</is-original-user>
+        </basic-properties>
+        <additional-properties/>
+        <automatically-filled-fields/>
+      </extend>
+    </transition>
+  </decision>
+</process>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd"
+	default-autowire="byType" default-lazy-init="true">
+	
+	<http entry-point-ref="authenticationEntryPoint" access-denied-page="/portal/exception-handle.action?type=403">
+		<concurrent-session-control max-sessions="1" expired-url="/portal/exception-handle.action?type=403&amp;expired=true"/>
+		<anonymous/>
+	</http>
+	
+	<beans:bean id="logoutFilter" class="com.norteksoft.acs.web.filter.LogoutFilter">
+		<custom-filter position="LOGOUT_FILTER"/>
+		<beans:constructor-arg value="${host.sso}/logout?service=${host.app}"></beans:constructor-arg>
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:bean class="org.springframework.security.ui.logout.SecurityContextLogoutHandler"></beans:bean>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<authentication-provider user-service-ref="userDetailsService">
+		<password-encoder hash="plaintext" />
+	</authentication-provider>
+
+	<beans:bean id="userDetailsService" class="com.norteksoft.acs.service.security.UserDetailServiceImpl">
+		<beans:property name="isTenant" value="true"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsService"></beans:property>
+		<beans:property name="hideUserNotFoundExceptions" value="false"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="authenticationManager" class="org.springframework.security.providers.ProviderManager" >
+		<beans:property name="providers">
+			<beans:list>
+				<beans:ref local="casAuthenticationProvider"/>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">  
+         <beans:property name="allowIfAllAbstainDecisions" value="false"/>  
+         <beans:property name="decisionVoters">
+             <beans:list>  
+                 <beans:bean class="org.springframework.security.vote.RoleVoter">
+                 	<beans:property name="rolePrefix" value=""></beans:property>
+                 </beans:bean>
+                 <beans:bean class="org.springframework.security.vote.AuthenticatedVoter"/>  
+             </beans:list>
+         </beans:property>
+     </beans:bean>
+     
+     <beans:bean id="rememberMeServices" class="org.springframework.security.ui.rememberme.TokenBasedRememberMeServices">
+     	<beans:property name="key" value="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />
+     	<beans:property name="userDetailsService" ref="userDetailsService" />
+     </beans:bean>
+     
+     <beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.providers.rememberme.RememberMeAuthenticationProvider">  
+	 	<custom-authentication-provider />  
+	    <beans:property name="key" value="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />  
+	 </beans:bean>  
+	 
+     <beans:bean class="com.norteksoft.acs.service.security.ProcessingFilter">
+     	<custom-filter after="CAS_PROCESSING_FILTER"/>
+     	<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+     	<beans:property name="authenticationFailureUrl" value="/portal/exception-handle.action?type=403"></beans:property>
+     	<beans:property name="defaultTargetUrl" value="/" />
+        <beans:property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage" />
+     </beans:bean>
+     
+     
+     <beans:bean id="authenticationEntryPoint" class="com.norteksoft.acs.web.filter.CasProcessingFilterEntryPointSub">
+     	<beans:property name="loginUrl" value="${host.sso}/login"></beans:property>
+        <beans:property name="serviceProperties" ref="serviceProperties"/>
+     </beans:bean>
+     
+     <beans:bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl" />
+     
+     <beans:bean id="casAuthenticationProvider" class="org.springframework.security.providers.cas.CasAuthenticationProvider">
+        <custom-authentication-provider />
+        <beans:property name="userDetailsService" ref="userDetailsService"/>
+        <beans:property name="ticketValidator">
+        	<beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+        		<beans:constructor-arg index="0" value="${host.sso}"  />
+            </beans:bean>
+        </beans:property>
+        <beans:property name="key" value="acs_password_for_this_auth_provider_only"/>
+    </beans:bean>
+     
+    <beans:bean id="serviceProperties" class="org.springframework.security.ui.cas.ServiceProperties">
+        <beans:property name="service" value="${host.app}/j_spring_cas_security_check"/>
+        <beans:property name="sendRenew" value="false"/>
+    </beans:bean>
+     
+     <beans:bean id="resourceSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+         <beans:property name="authenticationManager" ref="authenticationManager"/>  
+         <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>  
+         <beans:property name="objectDefinitionSource" ref="secureResourceFilterInvocationDefinitionSource" />  
+         <beans:property name="observeOncePerRequest" value="false" />
+         <custom-filter after="LAST" />  
+     </beans:bean>
+     
+     <beans:bean id="secureResourceFilterInvocationDefinitionSource" class="com.norteksoft.acs.service.security.FilterInvocationDefinitionSourceImpl">
+     </beans:bean>
+     
+     <beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+     	<beans:property name="loginFormUrl">            
+       		<beans:value>/portal/login.action</beans:value>        
+   		</beans:property>
+   		<beans:property  name="forceHttps" value="true"/>
+     </beans:bean>
+</beans:beans>
+

@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>部门人员控件属性</title>
+    <style type="text/css">
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+    <script type="text/javascript" src="../../../js/jquery.js"></script>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		var temp = "";
+		KE.event.ready(function() {
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.value!=undefined){
+				if(startNode.getAttribute("value") !=undefined)$("#componentName").attr("value",startNode.getAttribute("value"));
+				if(startNode.getAttribute("resultId") !=null)$("#inforId").attr("value",startNode.getAttribute("resultId"));
+				if(startNode.getAttribute("treeType") !=null){
+					$("#treeType").attr("value",startNode.getAttribute("treeType"));
+				}
+				if(startNode.getAttribute("selectType")!=null)$("#selectType").attr("value",startNode.getAttribute("selectType"));
+				if(startNode.getAttribute("hiddenId")!=null)$("#hiddenId").attr("value",startNode.getAttribute("hiddenId"));
+
+				if(startNode.getAttribute("inputType")!=null)$("#inputType").attr("value",startNode.getAttribute("inputType"));
+			}
+		}, window, document);
+
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+     <tr >
+      		<td align="right">控件名称：</td>
+      		<td><input  type="text" name="componentName" id="componentName" value="" maxlength="20"/></td>
+      </tr>
+      <tr >
+      		<td align="right">显示信息的输入框的名称：</td>
+      		<td><input  type="text" name="inforId" id="inforId" value="" maxlength="50"/></td>
+      		<td>字段名由英文母开始,数字和下划线组成.</td>
+      </tr>
+      <tr>
+     	<td align="right">显示信息的输入框类型：</td>
+     	<td>
+   			<select id="inputType" name="inputType">
+   				<option value="input">文本框</option>
+   				<option value="textArea">文本域</option>
+   			</select>
+   		</td>
+     </tr>
+      <tr >
+      		<td align="right">保存信息的输入框的名称：</td>
+      		<td><input  type="text" name="hiddenId" id="hiddenId" value="" maxlength="255"/></td>
+      		<td>字段名由英文母开始,数字和下划线组成.</td>
+      </tr>
+     <tr>
+     	<td align="right">选择类型：</td>
+     	<td>
+   			<select id="treeType" name="treeType">
+   				<option value="COMPANY">公司树</option>
+   				<option value="MAN_DEPARTMENT_GROUP_TREE">人员部门和工作组树</option>
+   				<option value="MAN_DEPARTMENT_TREE">人员部门树</option>
+   				<option value="MAN_GROUP_TREE">人员工作组树</option>
+   				<option value="DEPARTMENT_TREE">部门树</option>
+   				<option value="DEPARTMENT_WORKGROUP_TREE">部门工作组树</option>
+   				<option value="GROUP_TREE">工作组树</option>
+   			</select>
+   		</td>
+     </tr>
+     <tr>
+     	<td align="right">类型：</td>
+     	<td>
+   			<select id="selectType" name="selectType">
+   				<option value="true">多选</option>
+   				<option value="false">单选</option>
+   			</select>
+   		</td>
+     </tr>
+    </table>
+  </body>
+</html>

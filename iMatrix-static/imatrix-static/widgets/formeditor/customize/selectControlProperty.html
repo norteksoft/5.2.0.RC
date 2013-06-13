@@ -1,0 +1,297 @@
+<html>
+<head>
+ 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>下拉框</title>
+</head>
+<body>
+<div style="margin: 10px;">
+	<P>组件：下拉框</P>
+	<P>字段名：</p><p><INPUT id="Sname" value="" name="Sname" maxlength="255"> </P>
+	<P>标题：</p><p><INPUT id="SengName" value="" name="SengName" maxlength="255"> </P>
+	<p>初始选定：<input name="Sinit" id="Sinit" value="" tagValue="" readonly="readonly"/></p>
+	<p>高度：<input name="Sheight" id="Sheight" type="text" style="width: 35px;"/>行</p>
+	
+	<p>字段类型：
+		<SELECT id=SfieldType name=SfieldType>
+			<OPTION selected value=TEXT>文本</OPTION>
+			<OPTION value=DATE>日期</OPTION>
+			<OPTION value=TIME>时间</OPTION>
+			<OPTION value=NUMBER>数字</OPTION>
+			<OPTION value=AMOUNT>小数</OPTION>
+		</SELECT>
+	</p>
+	<p>列表值来源：</p>
+	<p><input type="radio" onclick="listsrc('input')" name="listsrc" checked="checked"/>输入 <input name="listsrc" onclick="listsrc('get')" type="radio"/>动态获取</p>
+	 <input id="list_src" type="hidden" name="list_src" value="false"/>
+	<hr>
+		<table id="table_select" border="0" cellpadding="0" cellspacing="0" style="display: block;">
+			<tr ><th >标签</th><th >值</th></tr>
+		     <tr>
+		     	<td><select  id="Sleft" name="Sleft" size="7" onclick="Selecteds('left',this);"  style="width: 80px"></select></td>
+		     	<td><select onclick="Selecteds('right',this);" id="Sright" name="Sright" style="width: 80px" size="7"></select></td>
+		     </tr>
+			 <tr>
+	      		<td><input  type="text" name="Stag" id="Stag" style="width: 80px;" value="" /></td>
+	      		<td><input  type="text" style="width: 80px;" name="Svalue" id="Svalue" value="" /></td>
+     		</tr>
+			<tr><td style="text-align: center;border: 0px ;padding: 2px"><a href="#" id="upd" class="btnStyle "  onclick="Add();">新增</a></td>
+			<td style="text-align: center;border: 0px ;padding: 2px"><a href="#" id="upd" class="btnStyle "  onclick="Update();">修改</a></td></tr>
+			<tr><td style="text-align: center;border: 0px ;padding: 2px"><a href="#" id="upd" class="btnStyle "  onclick="defaultValue();">默认</a></td>
+			<td style="text-align: center;border: 0px ;padding: 2px"><a href="#" id="upd" class="btnStyle "  onclick="Delete();">删除</a></td></tr>
+			<tr><td style="text-align: center;border: 0px ;padding: 2px"><a href="#" id="upd" class="btnStyle "  onclick="move('up',-1);">上移</a></td>
+			<td style="text-align: center;border: 0px ;padding: 2px"><a href="#" id="upd" class="btnStyle "  onclick="move('down',1);">下移</a></td></tr>
+			
+		</table>
+	
+	<br>
+	<br>
+	
+	<p><a href="#" id="upd" class="btnStyle " onclick="ok()">确定</a>
+		<a href="#" id="upd" class="btnStyle " onclick="cancel()">取消</a>
+	</p>
+	
+	<script type="text/javascript">
+
+	function listsrc(src){
+		if(src=='input'){
+			document.getElementById("table_select").style.display="block";
+			document.getElementById("Sleft").disabled=false;
+			document.getElementById("Sright").disabled=false;
+			document.getElementById("list_src").value='false';
+		}else{
+			document.getElementById("table_select").style.display="none";
+			document.getElementById("Sleft").disabled=true;
+			document.getElementById("Sright").disabled=true;
+			document.getElementById("list_src").value='true';
+		}
+	}
+	//增加
+	function Add(){
+		var stag	= document.getElementById( "Stag" ) ;
+		var svalue	= document.getElementById( "Svalue" ) ;
+
+		AddOption(stag,svalue);
+		stag.value="";
+		svalue.value="";
+	}
+
+	function AddOption(value,text){
+		var leftfSelect = document.getElementById("Sleft");
+		var rightSelect = document.getElementById("Sright");
+		var a = value.value;
+		leftfSelect.options.add(new Option(value.value,a));
+		rightSelect.options.add(new Option(text.value,value.value ));
+	}
+
+	//删除
+	function Delete(){
+		var leftfSelect = document.getElementById("Sleft");
+		var rightSelect = document.getElementById("Sright");
+		if(leftfSelect.options.length>0&&rightSelect.options.length>0){
+			if(leftfSelect.selectedIndex!=-1){
+				leftfSelect.remove(leftfSelect.selectedIndex); 
+				rightSelect.remove(rightSelect.selectedIndex);
+			}
+			if(rightSelect.selectedIndex!=-1){
+				leftfSelect.remove(leftfSelect.selectedIndex);
+				rightSelect.remove(rightSelect.selectedIndex);
+			}
+		}
+	}
+
+	//修改
+	function Update(){
+		var stag= document.getElementById( "Stag" ) ;
+		var svalue	= document.getElementById( "Svalue" ) ;
+
+		var leftfSelect = document.getElementById("Sleft");
+		var rightSelect = document.getElementById("Sright");
+		if(leftfSelect.options.length>0&&rightSelect.options.length>0){
+			if(leftfSelect.selectedIndex!=-1){
+				leftfSelect.options[leftfSelect.selectedIndex].text=stag.value;
+				leftfSelect.options[leftfSelect.selectedIndex].value=stag.value;
+				rightSelect.options[leftfSelect.selectedIndex].text=svalue.value;
+				rightSelect.options[leftfSelect.selectedIndex].value=stag.value;
+			}
+			if(rightSelect.selectedIndex!=-1){
+				leftfSelect.options[rightSelect.selectedIndex].text=stag.value;
+				leftfSelect.options[rightSelect.selectedIndex].value=stag.value;
+				rightSelect.options[rightSelect.selectedIndex].text=svalue.value;
+				rightSelect.options[rightSelect.selectedIndex].value=stag.value;
+			}
+		}
+	}
+
+	//选择
+	function Selecteds(type,id){
+		var stag	= document.getElementById( "Stag" ) ;
+		var svalue	= document.getElementById( "Svalue" ) ;
+		var leftfSelect = document.getElementById("Sleft");
+		var rightSelect = document.getElementById("Sright");
+		if(leftfSelect.options.length>0&&rightSelect.options.length>0){
+			if(type=="left"&&leftfSelect.selectedIndex!=-1){
+				stag.value=leftfSelect.options[leftfSelect.selectedIndex].text;
+				svalue.value=rightSelect.options[leftfSelect.selectedIndex].text;
+				rightSelect.value=leftfSelect.options[leftfSelect.selectedIndex].value;
+			}
+			if(type=="right"&&rightSelect.selectedIndex!=-1){
+				stag.value=leftfSelect.options[rightSelect.selectedIndex].text;
+				svalue.value=rightSelect.options[rightSelect.selectedIndex].text;
+				leftfSelect.value=rightSelect.options[rightSelect.selectedIndex].value;
+			}
+		}
+	}
+
+	//移动
+	function move(type,t){
+		var leftSelect = document.getElementById("Sleft");
+		var rightSelect = document.getElementById("Sright");
+		if(type=="up"&&leftSelect.length>0&&leftSelect.selectedIndex>0){
+			  var   optL=leftSelect.options[leftSelect.selectedIndex];  
+		      var   otheroptL=leftSelect.options[leftSelect.selectedIndex+t];  
+
+		      var   textL=optL.text;  
+		      var   valueL=optL.value; 
+
+		      optL.text=otheroptL.text;  
+		      optL.value=otheroptL.value;  
+		   
+		      otheroptL.text=textL;  
+		      otheroptL.value=valueL; 
+
+		      leftSelect.selectedIndex+=t;       
+
+		      var   optR=rightSelect.options[rightSelect.selectedIndex];  
+		      var   otheroptR=rightSelect.options[rightSelect.selectedIndex+t];  
+		   
+		      var   textR=optR.text;  
+		      var   valueR=optR.value; 
+
+		      optR.text=otheroptR.text;  
+		      optR.value=otheroptR.value;  
+		   
+		      otheroptR.text=textR;  
+		      otheroptR.value=valueR; 
+
+		      rightSelect.value=leftSelect.options[leftSelect.selectedIndex].value;
+		}
+		if(type=="down"&&rightSelect.length>0&&leftSelect.selectedIndex!=leftSelect.length-1){
+
+		      var   optR=rightSelect.options[rightSelect.selectedIndex];  
+		      var   otheroptR=rightSelect.options[rightSelect.selectedIndex+t];  
+		   
+		      var   textR=optR.text;  
+		      var   valueR=optR.value; 
+
+		      optR.text=otheroptR.text;  
+		      optR.value=otheroptR.value;  
+		   
+		      otheroptR.text=textR;  
+		      otheroptR.value=valueR; 
+
+			  rightSelect.selectedIndex+=t;  
+		      
+
+			
+			  var   optL=leftSelect.options[leftSelect.selectedIndex];  
+		      var   otheroptL=leftSelect.options[leftSelect.selectedIndex+t];  
+		   
+		      var   textL=optL.text;  
+		      var   valueL=optL.value; 
+
+		      optL.text=otheroptL.text;  
+		      optL.value=otheroptL.value;  
+		   
+		      otheroptL.text=textL;  
+		      otheroptL.value=valueL; 
+
+		      leftSelect.value=rightSelect.options[rightSelect.selectedIndex].value;
+		}
+	}
+
+	function defaultValue(){
+		var leftSelect = document.getElementById("Sleft");
+		var rightSelect = document.getElementById("Sright");
+
+		if(leftSelect.selectedIndex!=-1){
+			
+			var   optR=rightSelect.options[rightSelect.selectedIndex];  
+		    var   otheroptR=rightSelect.options[0];
+
+		    var   textR=optR.text;  
+		    var   valueR=optR.value; 
+
+		    optR.text=otheroptR.text;  
+		    optR.value=otheroptR.value;  
+		   
+		    otheroptR.text=textR;  
+		    otheroptR.value=valueR;
+
+		    rightSelect.selectedIndex=0;   
+
+		    var   optL=leftSelect.options[leftSelect.selectedIndex];  
+		    var   otheroptL=leftSelect.options[0];
+
+		    var   textL=optL.text;  
+		    var   valueL=optL.value; 
+
+		    optL.text=otheroptL.text;  
+		    optL.value=otheroptL.value;  
+		   
+		    otheroptL.text=textL;  
+		    otheroptL.value=valueL;
+
+		    leftSelect.selectedIndex=0;   
+		    
+			document.getElementById("Sinit").setAttribute("value",textR);
+			document.getElementById("Sinit").setAttribute("tagValue",valueR);
+		}
+	}
+	
+		function cancel(){
+			init();
+		}
+		function ok(){
+			KE.plugin['SelectButton'].update(id);
+		}
+	
+		function init(){
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.nodeName!="SELECT"){
+				startNode=startNode.parentNode.parentNode;
+			}
+			
+			var title = $(startNode).attr("title");
+			var fieldName = $(startNode).attr("name");
+			var size = $(startNode).attr("size");;
+			var SfieldType = $(startNode).attr("dataType");
+			var dynamic = $(startNode).attr("dynamic");
+			var tagValue = $(startNode).attr("tagValue");
+			var textValue = $(startNode).attr("textValue");
+			
+			$("#SengName").attr("value",fieldName);
+			$("#Sinit").attr("value",tagValue);
+			$("#Sname").attr("value",title);
+			$("#SfieldType").attr("value",SfieldType);
+			$("#Sheight").attr("value",size);
+
+			$("#Stag").attr("value",tagValue);
+			$("#Svalue").attr("value",textValue);
+
+			var leftfSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+			for(var i=1;i<startNode.length;i++){
+				leftfSelect.options.add(new Option(startNode.options[i].value,startNode.options[i].value));
+				rightSelect.options.add(new Option(startNode.options[i].text,startNode.options[i].value ));
+			}
+
+			leftfSelect.value=startNode.getAttribute("tagValue");
+			rightSelect.value=startNode.getAttribute("tagValue");
+		}
+		init();
+		
+	</script>
+</div>
+</body>
+</html>

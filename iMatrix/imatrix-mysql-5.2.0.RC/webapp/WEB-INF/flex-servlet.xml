@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:flex="http://www.springframework.org/schema/flex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/flex 
+		http://www.springframework.org/schema/flex/spring-flex-1.0.xsd">
+
+	<flex:message-broker>
+		<flex:message-service
+			default-channels="my-streaming-amf,my-longpolling-amf,my-polling-amf"/>
+	</flex:message-broker>
+
+	 <!--  Expose the workflowDefinitionManager bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="workflowDefinitionManager"/> 
+
+	<!-- Expose the instanceHistoryManager bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="instanceHistoryManager"/>
+	
+	<!-- Expose the instanceHistoryManager bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="workflowInstanceManager"/>
+
+	<!-- Expose the formManager bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="formViewManager"/>
+	
+	<!-- Expose the formManager bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="documentTemplateFileManager"/>
+	
+	<!-- Expose the formManager bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="workflowTypeManager"/>
+	
+	<!-- Expose the securedProductService bean for BlazeDS remoting -->
+	<flex:remoting-destination ref="acsApi"/>
+	
+	<!--
+		MessageTemplate makes it easy to publish messages
+	-->
+	<bean id="defaultMessageTemplate" class="org.springframework.flex.messaging.MessageTemplate" />
+
+
+
+</beans>

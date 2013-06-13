@@ -1,0 +1,324 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>下拉框</title>
+    <style type="text/css" >
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+    <script type="text/javascript" src="../../../js/jquery.js"></script>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		KE.event.ready(function() {
+			var Sname = KE.$('Sname', document);
+			var SengName = KE.$('SengName', document);
+			var SfieldType = KE.$('SfieldType', document);
+			var Sheight = KE.$('Sheight', document);
+			var Sinit = KE.$('Sinit', document);
+			
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+
+			if(startNode.nodeName!="SELECT"){
+				startNode=startNode.parentNode.parentNode;
+			}
+			
+			if(startNode.name!=undefined){
+				SengName.value=startNode.name;
+				if(startNode.getAttribute("title")!=null)Sname.value=startNode.getAttribute("title");
+				if(startNode.getAttribute("dataType")!=null)SfieldType.value=startNode.getAttribute("dataType");
+				if(startNode.getAttribute("size")>0)Sheight.value=startNode.getAttribute("size");
+				if(startNode.getAttribute("textValue")!=null){
+					Sinit.value=startNode.getAttribute("textValue");
+					$("#Sinit").attr("tagvalue",startNode.getAttribute("tagValue"));
+				}
+				var leftfSelect = document.getElementById("Sleft");
+				var rightSelect = document.getElementById("Sright");
+				for(var i=1;i<startNode.length;i++){
+					leftfSelect.options.add(new Option(startNode.options[i].text,startNode.options[i].text));
+					rightSelect.options.add(new Option(startNode.options[i].value,startNode.options[i].text ));
+				}
+				var stag	= document.getElementById( "Stag" ) ;
+				var svalue	= document.getElementById( "Svalue" ) ;
+				stag.value=startNode.getAttribute("tagValue");
+				svalue.value=startNode.getAttribute("textValue");
+				leftfSelect.value=startNode.getAttribute("tagValue");
+				rightSelect.value=startNode.getAttribute("tagValue");
+			}
+		}, window, document);
+
+		//增加
+		function Add(){
+			var stag	= document.getElementById( "Stag" ) ;
+			var svalue	= document.getElementById( "Svalue" ) ;
+
+			AddOption(stag,svalue);
+			stag.value="";
+			svalue.value="";
+		}
+
+		function AddOption(value,text){
+			var leftfSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+			var a = value.value;
+			leftfSelect.options.add(new Option(value.value,a));
+			rightSelect.options.add(new Option(text.value,value.value ));
+		}
+
+		//删除
+		function Delete(){
+			var leftfSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+			if(leftfSelect.options.length>0&&rightSelect.options.length>0){
+				if(leftfSelect.selectedIndex!=-1){
+					leftfSelect.remove(leftfSelect.selectedIndex); 
+					rightSelect.remove(rightSelect.selectedIndex);
+				}
+				if(rightSelect.selectedIndex!=-1){
+					leftfSelect.remove(leftfSelect.selectedIndex);
+					rightSelect.remove(rightSelect.selectedIndex);
+				}
+			}
+		}
+
+		//修改
+		function Update(){
+			var stag= document.getElementById( "Stag" ) ;
+			var svalue	= document.getElementById( "Svalue" ) ;
+
+			var leftfSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+			if(leftfSelect.options.length>0&&rightSelect.options.length>0){
+				if(leftfSelect.selectedIndex!=-1){
+					leftfSelect.options[leftfSelect.selectedIndex].text=stag.value;
+					leftfSelect.options[leftfSelect.selectedIndex].value=stag.value;
+					rightSelect.options[leftfSelect.selectedIndex].text=svalue.value;
+					rightSelect.options[leftfSelect.selectedIndex].value=stag.value;
+				}
+				if(rightSelect.selectedIndex!=-1){
+					leftfSelect.options[rightSelect.selectedIndex].text=stag.value;
+					leftfSelect.options[rightSelect.selectedIndex].value=stag.value;
+					rightSelect.options[rightSelect.selectedIndex].text=svalue.value;
+					rightSelect.options[rightSelect.selectedIndex].value=stag.value;
+				}
+			}
+		}
+
+		//选择
+		function Selecteds(type,id){
+			var stag	= document.getElementById( "Stag" ) ;
+			var svalue	= document.getElementById( "Svalue" ) ;
+			var leftfSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+			if(leftfSelect.options.length>0&&rightSelect.options.length>0){
+				if(type=="left"&&leftfSelect.selectedIndex!=-1){
+					stag.value=leftfSelect.options[leftfSelect.selectedIndex].text;
+					svalue.value=rightSelect.options[leftfSelect.selectedIndex].text;
+					rightSelect.value=leftfSelect.options[leftfSelect.selectedIndex].value;
+				}
+				if(type=="right"&&rightSelect.selectedIndex!=-1){
+					stag.value=leftfSelect.options[rightSelect.selectedIndex].text;
+					svalue.value=rightSelect.options[rightSelect.selectedIndex].text;
+					leftfSelect.value=rightSelect.options[rightSelect.selectedIndex].value;
+				}
+			}
+		}
+
+		//移动
+		function move(type,t){
+			var leftSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+			if(type=="up"&&leftSelect.length>0&&leftSelect.selectedIndex>0){
+				  var   optL=leftSelect.options[leftSelect.selectedIndex];  
+			      var   otheroptL=leftSelect.options[leftSelect.selectedIndex+t];  
+
+			      var   textL=optL.text;  
+			      var   valueL=optL.value; 
+
+			      optL.text=otheroptL.text;  
+			      optL.value=otheroptL.value;  
+			   
+			      otheroptL.text=textL;  
+			      otheroptL.value=valueL; 
+
+			      leftSelect.selectedIndex+=t;       
+
+			      var   optR=rightSelect.options[rightSelect.selectedIndex];  
+			      var   otheroptR=rightSelect.options[rightSelect.selectedIndex+t];  
+			   
+			      var   textR=optR.text;  
+			      var   valueR=optR.value; 
+
+			      optR.text=otheroptR.text;  
+			      optR.value=otheroptR.value;  
+			   
+			      otheroptR.text=textR;  
+			      otheroptR.value=valueR; 
+
+			      rightSelect.value=leftSelect.options[leftSelect.selectedIndex].value;
+			}
+			if(type=="down"&&rightSelect.length>0&&leftSelect.selectedIndex!=leftSelect.length-1){
+
+			      var   optR=rightSelect.options[rightSelect.selectedIndex];  
+			      var   otheroptR=rightSelect.options[rightSelect.selectedIndex+t];  
+			   
+			      var   textR=optR.text;  
+			      var   valueR=optR.value; 
+
+			      optR.text=otheroptR.text;  
+			      optR.value=otheroptR.value;  
+			   
+			      otheroptR.text=textR;  
+			      otheroptR.value=valueR; 
+
+				  rightSelect.selectedIndex+=t;  
+			      
+
+				
+				  var   optL=leftSelect.options[leftSelect.selectedIndex];  
+			      var   otheroptL=leftSelect.options[leftSelect.selectedIndex+t];  
+			   
+			      var   textL=optL.text;  
+			      var   valueL=optL.value; 
+
+			      optL.text=otheroptL.text;  
+			      optL.value=otheroptL.value;  
+			   
+			      otheroptL.text=textL;  
+			      otheroptL.value=valueL; 
+
+			      leftSelect.value=rightSelect.options[rightSelect.selectedIndex].value;
+			}
+		}
+
+		function init(){
+			var leftSelect = document.getElementById("Sleft");
+			var rightSelect = document.getElementById("Sright");
+
+			if(leftSelect.selectedIndex!=-1){
+				
+				var   optR=rightSelect.options[rightSelect.selectedIndex];  
+			    var   otheroptR=rightSelect.options[0];
+	
+			    var   textR=optR.text;  
+			    var   valueR=optR.value; 
+	
+			    optR.text=otheroptR.text;  
+			    optR.value=otheroptR.value;  
+			   
+			    otheroptR.text=textR;  
+			    otheroptR.value=valueR;
+	
+			    rightSelect.selectedIndex=0;   
+	
+			    var   optL=leftSelect.options[leftSelect.selectedIndex];  
+			    var   otheroptL=leftSelect.options[0];
+	
+			    var   textL=optL.text;  
+			    var   valueL=optL.value; 
+	
+			    optL.text=otheroptL.text;  
+			    optL.value=otheroptL.value;  
+			   
+			    otheroptL.text=textL;  
+			    otheroptL.value=valueL;
+	
+			    leftSelect.selectedIndex=0;   
+			    
+				document.getElementById("Sinit").setAttribute("value",textR);
+				document.getElementById("Sinit").setAttribute("tagValue",valueR);
+			}
+		}
+
+		function listsrc(src){
+			if(src=='input'){
+				document.getElementById("table_select").style.display="block";
+				document.getElementById("Sleft").disabled=false;
+				document.getElementById("Sright").disabled=false;
+				document.getElementById("list_src").value='false';
+			}else{
+				document.getElementById("table_select").style.display="none";
+				document.getElementById("Sleft").disabled=true;
+				document.getElementById("Sright").disabled=true;
+				document.getElementById("list_src").value='true';
+			}
+		}
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+      		<td align="right">字段名：</td>
+      		<td><input type="text" name="SengName" id="SengName" value="" maxlength="20"/></td>
+      		<td>字段名由英文母开始,数字和下划线组成.</td>
+     </tr>
+      <tr>
+      		<td align="right">标题：</td>
+      		<td><input  type="text" name="Sname" id="Sname" value="" maxlength="50"/></td> 
+      		<td>非空且不能包含英文的"()[]"</td>
+      </tr>
+     <tr>
+     	<td align="right">初始选定：</td>
+     	<td><input name="Sinit" id="Sinit" value="" tagValue="" readonly="readonly"/></td>
+     	<td></td>
+     </tr>
+     <tr>
+     	<td align="right">高度：</td>
+     	<td><input name="Sheight" id="Sheight" type="text" style="width: 35px;"/>行</td>
+     	<td>必须为数字</td>
+     </tr>
+    <tr>
+    	<td align="right">字段类型：</td>
+    	<td>
+    		<select id="SfieldType" name="SfieldType">
+   				<OPTION selected value=TEXT>文本</OPTION>
+				<OPTION value=DATE>日期</OPTION>
+				<OPTION value=TIME>时间</OPTION>
+				<OPTION value=NUMBER>数字</OPTION>
+				<OPTION value=AMOUNT>小数</OPTION>
+   			</select>
+    	</td>
+    	<td></td>
+    </tr>
+    <tr>
+    	<td align="right">列表值来源：</td>
+    	<td><input type="radio" onclick="listsrc('input')" name="listsrc" checked="checked"/>输入 <input name="listsrc" onclick="listsrc('get')" type="radio"/>动态获取</td>
+    	<td></td>
+    </tr>
+    </table>
+    <hr>
+    <input id="list_src" type="hidden" name="list_src" value="false"/>
+   	 <table id="table_select" border="0" cellpadding="0" cellspacing="0" style="display: block;">
+   	 	<tr>
+      		<td>标签</td><td>值</td> <td></td>
+      </tr>
+      <tr>
+      		<td><input  type="text" name="Stag" id="Stag" style="width: 120px;" value="" /></td>
+      		<td><input  type="text" style="width: 120px;" name="Svalue" id="Svalue" value="" /></td>
+      		<td><input type="button" style="width: 40px;"  value="新增" onclick="Add();"/>
+      			<input type="button" style="width: 40px;" value="修改" onclick="Update();"/>
+      		</td>
+     </tr>
+     <tr>
+     	<td><select  id="Sleft" name="Sleft" size="7" onclick="Selecteds('left',this);"  style="width: 120px"></select></td>
+     	<td><select onclick="Selecteds('right',this);" id="Sright" name="Sright" style="width: 120px" size="7"></select></td>
+     	<td><input type="button" value="上移" onclick="move('up',-1);"/><br><br><br><input type="button" value="下移" onclick="move('down',1);"/></td>
+     </tr>
+     <tr>
+     	<td><input type="button" value="设定为初始化值" onclick="init();"/></td>
+     	<td><input type="button" value="删除" onclick="Delete();"/></td>
+     </tr>
+   	 </table>
+  </body>
+</html>

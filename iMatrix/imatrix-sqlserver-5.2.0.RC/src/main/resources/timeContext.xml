@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<description>Spring公共配置文件</description>
+	 
+		<!-- 要调用的工作类 --> 
+         <bean id="quartzJob" class="com.norteksoft.portal.base.utils.QuartzJob">
+         	 <property name="indexManager" ref="indexManager"/>
+         </bean> 
+         <!-- 可继续加新的任务   --> 
+         <!-- 要调用的工作类结束 --> 
+
+         <!-- 定义调用对象和调用对象的方法 --> 
+         <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
+             <!-- 调用的类 --> 
+             <property name="targetObject"> 
+                 <ref bean="quartzJob"/> 
+             </property> 
+             <!-- 调用类中的方法 --> 
+             <property name="targetMethod"> 
+                 <value>run</value> 
+             </property> 
+         </bean> 
+
+         <!-- 可继续加新的   --> 
+       <!-- 定义调用对象和调用对象的方法结束 --> 
+
+         <!-- 定义触发时间 --> 
+         <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean"> 
+             <property name="jobDetail"> 
+                 <ref bean="jobtask"/> 
+             </property> 
+             <!-- cron表达式      定时删除垃圾通知 --> 
+             <property name="cronExpression"> 
+                 <value>0 00 23 * * ?</value> 
+             </property> 
+         </bean> 
+         
+         <!-- 可继续加新的   --> 
+         <!-- 定义触发时间结束 --> 
+
+         <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序   --> 
+         <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+             <property name="triggers"> 
+                 <list>
+                 	<!-- 可继续加新的   --> 
+                     <ref bean="doTime"/> 
+                    
+                 </list> 
+             </property> 
+         </bean> 
+       <!-- 总管理类结束   --> 
+       
+       <!--
+       
+       	#定时器的配置
+		#"0 0 12 * * ?" 每天中午12点触发 
+		#"0 15 10 ? * *" 每天上午10:15触发 
+		#"0 15 10 * * ?" 每天上午10:15触发 
+		#"0 15 10 * * ? *" 每天上午10:15触发 
+		#"0 15 10 * * ? 2005" 2005年的每天上午10:15触发 
+		#"0 * 14 * * ?" 在每天下午2点到下午2:59期间的每1分钟触发 
+		#"0 0/5 14 * * ?" 在每天下午2点到下午2:55期间的每5分钟触发 
+		#"0 0/5 14,18 * * ?" 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发 
+		#"0 0-5 14 * * ?" 在每天下午2点到下午2:05期间的每1分钟触发 
+		#"0 10,44 14 ? 3 WED" 每年三月的星期三的下午2:10和2:44触发 
+		#"0 15 10 ? * MON-FRI" 周一至周五的上午10:15触发 
+		#"0 15 10 15 * ?" 每月15日上午10:15触发 
+		#"0 15 10 L * ?" 每月最后一日的上午10:15触发 
+		#"0 15 10 ? * 6L" 每月的最后一个星期五上午10:15触发 
+		#"0 15 10 ? * 6L 2002-2005" 2002年至2005年的每月的最后一个星期五上午10:15触发 
+		#"0 15 10 ? * 6#3" 每月的第三个星期五上午10:15触发 
+ 		--> 
+</beans>

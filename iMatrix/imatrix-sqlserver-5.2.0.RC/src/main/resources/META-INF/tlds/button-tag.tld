@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+	<description><![CDATA["封装了按钮显示的功能标签"]]></description>
+  	<display-name>"按钮显示功能标签"</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>button</short-name>
+	<uri>http://www.norteksoft.com/button/tags</uri>
+	<tag>
+		<description><![CDATA[按钮标签]]></description>
+		<name>button</name>
+	    <tag-class>com.norteksoft.tags.button.ButtonTag</tag-class>
+	    <body-content>JSP</body-content>
+	    <attribute>
+	      <description><![CDATA[页面编号]]></description>
+	      <name>code</name>
+	      <required>true</required>
+	      <rtexprvalue>true</rtexprvalue>
+	    </attribute>
+	</tag>
+</taglib>

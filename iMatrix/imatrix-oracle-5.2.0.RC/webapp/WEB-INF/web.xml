@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>imatrix</display-name>
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符,多个路径用,号分隔
+		此参数用于后面的Spring Context Loader -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml,classpath:applicationContext-security.xml,classpath:applicationContext-memcache.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>systemCode</param-name>
+		<param-value>imatrix</param-value>
+	</context-param>
+	<!-- Filter 定义  -->
+	<!-- 只需在imatrix项目中配 -->
+    <filter>
+		<filter-name>SubSystemEntranceRedirectFilter</filter-name>
+		<filter-class>com.norteksoft.acs.web.filter.SubSystemEntranceRedirectFilter</filter-class>
+	</filter>
+	
+	<!--session过期处理的filter，会重定向到403页面-->
+	<filter>
+		<filter-name>SessionFailFilter</filter-name>
+		<filter-class>com.norteksoft.acs.web.filter.SessionFailFilter</filter-class>
+	</filter>
+	
+	<!-- Character Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+<!-- AjaxAnywhere Filter -->
+	<filter>
+        <filter-name>AjaxAnywhere</filter-name>
+        <filter-class>org.ajaxanywhere.AAFilter</filter-class>
+    </filter>
+    
+	<!-- Hibernate Open Session In View filter-->
+	<filter>
+		<filter-name>osivFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>excludeSuffixs</param-name>
+			<param-value>js,css,jpg,gif</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>exceededOnlineUserFilter</filter-name>
+		<filter-class>com.norteksoft.acs.web.filter.ExceededOnlineUserFilter</filter-class>
+	</filter>
+	
+    <filter>
+        <filter-name>singleSignOutFilter</filter-name>
+        <filter-class>com.norteksoft.acs.web.filter.SingleSignOutFilter</filter-class>
+    </filter>
+    
+	<!-- SpringSecurity Filter -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+    <filter>
+		<filter-name>struts2Filter</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+    
+	
+	<!-- Filter 映射 -->
+	<!-- 只是在imatrix项目中配 -->
+    <filter-mapping>
+		<filter-name>SubSystemEntranceRedirectFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+     </filter-mapping>
+     
+     <!--session过期处理的filter，会重定向到403页面-->
+     <filter-mapping>
+		<filter-name>SessionFailFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+    <filter-mapping>
+        <filter-name>AjaxAnywhere</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>AjaxAnywhere</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
+	
+	<filter-mapping>
+        <filter-name>AjaxAnywhere</filter-name>
+        <url-pattern>*.action</url-pattern>
+    </filter-mapping>
+
+	<filter-mapping>
+		<filter-name>osivFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+        <filter-name>singleSignOutFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+        <filter-name>exceededOnlineUserFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/j_spring_cas_security_check</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/j_spring_security_logout</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>struts2Filter</filter-name>
+		<url-pattern>*.htm</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>struts2Filter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<!--Spring ApplicationContext 载入 -->
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>com.norteksoft.acs.web.listener.AcsContextListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>com.norteksoft.acs.web.listener.AcsHttpSessionListener</listener-class>
+	</listener> 
+	<listener>
+		<listener-class>com.norteksoft.product.web.listener.QuartzListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.norteksoft.wf.engine.web.listener.WorkflowContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.norteksoft.bs.options.web.listener.InternationContextListener</listener-class>
+	</listener>
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>flex.messaging.HttpFlexSession</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.norteksoft.wf.engine.web.rest</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>flex</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>flex</servlet-name>
+		<url-pattern>/messagebroker/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UploadServlet</servlet-name>
+		<servlet-class>com.norteksoft.wf.engine.web.UploadServlet</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	<servlet>
+		<display-name>WebOffice</display-name>
+		<servlet-name>WebOffice</servlet-name>
+		<servlet-class>com.norteksoft.wf.engine.web.servlet.WebOffice</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>WebPdf</display-name>
+		<servlet-name>WebPdf</servlet-name>
+		<servlet-class>com.norteksoft.wf.engine.web.servlet.WebPdf</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UploadServlet</servlet-name>
+		<url-pattern>/UploadServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WebOffice</servlet-name>
+		<url-pattern>/WebOffice</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WebPdf</servlet-name>
+		<url-pattern>/WebPdf</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!-- session超时定义,单位为分钟 -->
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+	<!-- 自定义标签配置，只需在imatrix项目中配置 -->
+	<jsp-config>
+		<taglib id="menu">
+			<taglib-uri>http://www.norteksoft.com/menu/tags</taglib-uri>
+			<taglib-location>classes/META-INF/tlds/menu-tag.tld</taglib-location>
+		</taglib>
+		<taglib id="view">
+			<taglib-uri>http://www.norteksoft.com/view/tags</taglib-uri>
+			<taglib-location>classes/META-INF/tlds/view-tag.tld</taglib-location>
+		</taglib>
+		<taglib id="acsTags">
+			<taglib-uri>http://www.norteksoft.com/acs/tags</taglib-uri>
+			<taglib-location>classes/META-INF/tlds/tagshandle.tld</taglib-location>
+		</taglib>
+		<taglib id="button">
+			<taglib-uri>http://www.norteksoft.com/button/tags</taglib-uri>
+			<taglib-location>classes/META-INF/tlds/button-tag.tld</taglib-location>
+		</taglib>
+		<taglib id="workflow">
+			<taglib-uri>http://www.norteksoft.com/workflow/tags</taglib-uri>
+			<taglib-location>classes/META-INF/tlds/workflow-tags.tld</taglib-location>
+		</taglib>
+		<taglib id="searchTag">
+			<taglib-uri>http://www.norteksoft.com/search/tags</taglib-uri>
+			<taglib-location>classes/META-INF/tlds/search-tag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<!-- 出错页面定义 -->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/portal/exception-handle.action?type=500</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/portal/exception-handle.action?type=500</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/portal/exception-handle.action?type=404</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/portal/exception-handle.action?type=403</location>
+	</error-page>
+	
+</web-app>

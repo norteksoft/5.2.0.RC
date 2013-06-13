@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+data-sheet配置:
+	<column/>:其中唯一确定一条记录的字段应放在前面。fieldName:字段名称,title:中文名称,ignore:是否忽略,defaultValue:当是新增的字段时,默认值设置；identifier：标识实体是否存在的字段
+	 menuCode,tableName,listViewCode，tableColumnName,jqGridPropertys,systemCode,functionGroupCode名字固定不可更改
+	 menuCode:映射menu实体的code字段;
+	 tableName:除MMS_DATA_TABLE中，该字段表示映射DataTable实体的tableName字段；
+	 listViewCode:映射ListView实体的code字段；
+	 tableColumnName：映射实体TableColumn实体的columnName字段；
+	 jqGridPropertys：ListView实体中jqGridProperty的集合，已字符串形式保存到excel文件中
+	 systemCode:BusinessSystem实体中code字段
+	 functionGroupCode:FunctionGroup实体中的functionGroupCode（资源组编码）字段
+	 productVersion:Product实体中version字段
+	 
+file-config配置：
+data的值为:
+	ACS_SYSTEM("系统"),
+	ACS_GROUP("资源组"),
+	ACS_ROLE("角色"),
+	ACS_PRODUCT("系统产品"),
+	PORTAL_INFO("门户信息"),
+	MMS_MENU("菜单"),
+	MMS_DATA_TABLE("数据表"),
+	MMS_LIST_VIEW("列表"),
+	MMS_FORM_VIEW("表单"),
+	JOB_INFO("定时信息"),
+	WF_TYPE("流程类型"),
+	WF_DEFINATION("流程定义"),
+	DATA_DICT("数据字典"),
+	OPTION_GROUP("选项组"),
+	RANK("用户上下级关系"),
+	INTERNATION("国际化设置"),
+	OPERATION("通用类型管理")；
+	也可以自己添加
+	
+导出路径exportPath默认为portal-mms;
+导入路径importPath默认为portal-mms;
+导入位置category：导入基础数据(basicData)、初始化平台(initData)
+beanname:导出导入数据bean，该bean必须实现接口DataTransfer
+filename:导出导入的文件名
+filenameStartwith:导出导入的文件名以什么开头
+ -->
+<data-sheets>
+	<sheets>
+		<data-sheet name="MMS_MENU">
+			<column fieldName="code" title="编号" identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="layer" title="层级" dataType="INTEGER"></column>
+			<column fieldName="url" title="链接地址" ></column>
+			<column fieldName="menuCode" title="父菜单编码" dataType="TEXT"></column>
+			<column fieldName="displayOrder" title="序号" dataType="INTEGER"></column>
+			<column fieldName="enableState" title="菜单状态" dataType="ENUM" enumName="com.norteksoft.product.enumeration.DataState"></column>
+			<column fieldName="type" title="菜单类型" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.MenuType"></column>
+			<column fieldName="systemCode" title="系统编码"></column>
+			<column fieldName="openWay" title="打开方式" dataType="ENUM" enumName="com.norteksoft.mms.base.OpenWay"></column>
+		</data-sheet>
+		<data-sheet name="MMS_DATA_TABLE">
+			<column fieldName="name" title="数据表名称" identifier="true"></column>
+			<column fieldName="alias" title="数据表别名"></column>
+			<column fieldName="entityName" title="实体名称"></column>
+			<column fieldName="tableState" title="数据表状态" dataType="ENUM" enumName="com.norteksoft.product.enumeration.DataState"></column>
+			<column fieldName="menuCode" title="菜单编码" ></column>
+			<column fieldName="remark" title="备注"></column>
+		</data-sheet>
+		<data-sheet name="MMS_TABLE_COLUMN">
+			<column fieldName="tableName" title="数据表名称" identifier="true"></column>
+			<column fieldName="name" title="字段名称" identifier="true"></column>
+			<column fieldName="deleted" title="是否删除" dataType="BOOLEAN" identifier="true"></column>
+			<column fieldName="displayOrder" title="显示顺序" dataType="INTEGER"></column>
+			<column fieldName="alias" title="字段别名"></column>
+			<column fieldName="dbColumnName" title="表字段名称"></column>
+			<column fieldName="dataType" title="字段类型" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.DataType"></column>
+			<column fieldName="defaultValue" title="默认值"></column>
+			<column fieldName="maxLength" title="最大长度" dataType="INTEGER"></column>
+			<column fieldName="objectPath" title="路径"></column>
+			<column fieldName="casual" title="是否是临时的字段" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="MMS_LIST_VIEW">
+			<column fieldName="code" title="编码" identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="tableName" title="数据表名称"></column>
+			<column fieldName="standard" title="是否是标准" dataType="BOOLEAN"></column>
+			<column fieldName="menuCode" title="菜单编码" ></column>
+			<column fieldName="rowNumbers" title="是否显示序号" dataType="BOOLEAN"></column>
+			<column fieldName="pagination" title="是否分页" dataType="BOOLEAN"></column>
+			<column fieldName="rowNum" title="默认行数" dataType="INTEGER"></column>
+			<column fieldName="frozenColumn" title="冻结行数" dataType="INTEGER"></column>
+			<column fieldName="orderType" title="默认排序方式" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.OrderType"></column>
+			<column fieldName="defaultSortField" title="默认排序字段"></column>
+			<column fieldName="rowList" title="可选行数"></column>
+			<column fieldName="defaultListView" title="是否默认" dataType="BOOLEAN"></column>
+			<column fieldName="editable" title="是否需要操作" dataType="BOOLEAN"></column>
+			<column fieldName="editUrl" title="表格中编辑时保存url"></column>
+			<column fieldName="jqGridPropertys" title="属性自由扩展列表"></column>
+			<column fieldName="advancedQuery" title="是否高级查询" dataType="BOOLEAN"></column>
+			<column fieldName="startQuery" title="是否启用查询" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.StartQuery"></column>
+			<column fieldName="totalType" title="合计方式" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.TotalType"></column>
+			<column fieldName="popUp" title="是否是嵌入式查询" dataType="BOOLEAN"></column>
+			<column fieldName="deleteUrl" title="删除的url"></column>
+			<column fieldName="orderFieldName" title="行顺序字段名称"></column>
+			<column fieldName="dragRowUrl" title="行拖动后保存顺序的url"></column>
+			<column fieldName="multiSelect" title="是否可以多选" dataType="BOOLEAN"></column>
+			<column fieldName="multiboxSelectOnly" title="仅点击复选框时选中" dataType="BOOLEAN"></column>
+			<column fieldName="remark" title="备注"></column>
+			<column fieldName="actWidth" title="操作列宽设置"></column>
+			<column fieldName="totalable" title="是否显示列表总条数" dataType="BOOLEAN"></column>
+			<column fieldName="search_totalable" title="查询时是否显示列表总条数" dataType="BOOLEAN"></column>
+			<column fieldName="search_faint" title="是否启用模糊查询" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="MMS_LIST_COLUMN">
+			<column fieldName="listViewCode" title="列表编码" identifier="true"></column>
+			<column fieldName="tableColumnName" title="对应字段" identifier="true"></column>
+			<column fieldName="headerName" title="列头名"></column>
+			<column fieldName="visible" title="是否显示" dataType="BOOLEAN"></column>
+			<column fieldName="displayOrder" title="显示顺序" ></column>
+			<column fieldName="headStyle" title="列宽"></column>
+			<column fieldName="total" title="是否合计" dataType="BOOLEAN"></column>
+			<column fieldName="sortable" title="是否排序" dataType="BOOLEAN"></column>
+			<column fieldName="editable" title="是否编辑"  dataType="BOOLEAN"></column>
+			<column fieldName="exportable" title="是否导出"  dataType="BOOLEAN"></column>
+			
+			<column fieldName="controlName" title="编辑时控件类型名称" ></column>
+			<column fieldName="controlValue" title="编辑时控件类型值" ></column>
+			<column fieldName="querySettingValue" title="查询设置值"></column>
+			<column fieldName="querySettingName" title="查询设置"></column>
+			
+			<column fieldName="valueSet" title="值设置"></column>
+			<column fieldName="editRules" title="编辑规则"></column>
+			<column fieldName="format" title="格式设置"></column>
+			<column fieldName="defaultValue" title="编辑时默认值设置" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.DefaultValue"></column>
+			<column fieldName="eventType" title="事件类型"></column>
+			<column fieldName="href" title="链接"></column>
+			<column fieldName="mainKey" title="合并主键"></column>
+			<column fieldName="mergerCell" title="是否合并单元格" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="MMS_FORM_VIEW">
+			<column fieldName="code" title="编码" identifier="true"></column>
+			<column fieldName="version" title="表单版本" dataType="INTEGER" identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="tableName" title="数据表名称"></column>
+			<column fieldName="standard" title="是否是标准" dataType="BOOLEAN"></column>
+			<column fieldName="menuCode" title="菜单编码" ></column>
+			<column fieldName="html" title="html片段" ></column>
+			<column fieldName="formState" title="表单状态" dataType="ENUM" enumName="com.norteksoft.product.enumeration.DataState"></column>
+		</data-sheet>
+		<data-sheet name="MMS_GROUP_HEADER">
+			<column fieldName="listViewCode" title="列表编码" identifier="true"></column>
+			<column fieldName="startColumnName" title="开始列名" identifier="true"></column>
+			<column fieldName="numberOfColumns" title="合并列数" dataType="Integer"  identifier="true"></column>
+			<column fieldName="titleText" title="新列名称" identifier="true"></column>
+		</data-sheet>
+		<data-sheet name="MMS_GENERATE_SETTING">
+			<column fieldName="tableName" title="数据表名称" identifier="true"></column>
+			<column fieldName="entitative" title="是否生成实体" dataType="BOOLEAN"></column>
+			<column fieldName="flowable" title="是否走流程" dataType="BOOLEAN"></column>
+			<column fieldName="workflowCode" title="对应的流程编码" ></column>
+		</data-sheet>
+		<data-sheet name="ACS_BUSINESS_SYSTEM">
+			<column fieldName="code" title="编码" identifier="true"></column>
+			<column fieldName="name" title="系统名称"></column>
+			<column fieldName="path" title="访问路径" ></column>
+			<column fieldName="product" title="是否是产品" dataType="BOOLEAN"></column>
+			<column fieldName="parentCode" title="父系统编码"></column>
+			<column fieldName="imatrixable" title="是否是平台" dataType="BOOLEAN"></column>
+			<column fieldName="deleted" title="是否删除" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="ACS_FUNCTION_GROUP">
+			<column fieldName="code" title="资源组编码" identifier="true"></column>
+			<column fieldName="name" title="资源组名称"></column>
+			<column fieldName="deleted" title="是否删除" dataType="BOOLEAN"></column>
+			<column fieldName="systemCode" title="系统编码"></column>
+		</data-sheet>
+		<data-sheet name="ACS_FUNCTION">
+			<column fieldName="code" title="资源编码" identifier="true"></column>
+			<column fieldName="name" title="资源名称"></column>
+			<column fieldName="path" title="资源路径" identifier="true"></column>
+			<column fieldName="deleted" title="是否删除" dataType="BOOLEAN"></column>
+			<column fieldName="systemCode" title="系统编码"></column>
+			<column fieldName="functionGroupCode" title="资源组编码"></column>
+		</data-sheet>
+		<data-sheet name="ACS_ROLE">
+			<column fieldName="code" title="角色编码" identifier="true"></column>
+			<column fieldName="name" title="角色名称"></column>
+			<column fieldName="systemCode" title="系统编码"></column>
+			<column fieldName="parentRoleCode" title="父角色编码"></column>
+			<column fieldName="deleted" title="是否删除" dataType="BOOLEAN"></column>
+			<column fieldName="roleType" title="角色类型"></column>
+			<column fieldName="weight" title="权重" dataType="INTEGER"></column>
+		</data-sheet>
+		<data-sheet name="ACS_ROLE_FUNCTION">
+			<column fieldName="roleCode" title="角色编码" identifier="true"></column>
+			<column fieldName="functionPath" title="资源路径" identifier="true"></column>
+			<column fieldName="functionCode" title="资源编码" identifier="true"></column>
+			<column fieldName="deleted" title="是否删除" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="PORTAL_WEBPAGE">
+			<column fieldName="name" title="页签名称"></column>
+			<column fieldName="url" title="页签链接"></column>
+			<column fieldName="sequence" title="页签顺序" dataType="INTEGER"></column>
+			<column fieldName="columns" title="几栏" dataType="INTEGER"></column>
+			<column fieldName="acquiescent" title="是否默认" dataType="BOOLEAN"></column>
+			<column fieldName="widgetOrder" title="保存小窗体位置的字符串"></column>
+		</data-sheet>
+		<data-sheet name="PORTAL_WIDGET">
+			<column fieldName="code" title="窗口编码" identifier="true"></column>
+			<column fieldName="name" title="窗口名称"></column>
+			<column fieldName="productCode" title="产品编号" ></column>
+			<column fieldName="url" title="窗口内容的url"></column>
+			<column fieldName="methodName" title="方法名"></column>
+			<column fieldName="acquiescent" title="是否默认显示" dataType="BOOLEAN"></column>
+			<column fieldName="parameterUrl" title="特殊窗体设置的url"></column>
+			<column fieldName="systemCode" title="系统编码" ></column>
+			<column fieldName="pageVisible" title="是否显示分页" dataType="BOOLEAN"></column>
+			<column fieldName="borderVisible" title="小窗体是否显示边框" dataType="BOOLEAN"></column>
+			<column fieldName="iframeable" title="小窗体的内容是否以iframe方式获得" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="PORTAL_WIDGET_ROLE">
+			<column fieldName="systemCode" title="窗口系统编码" identifier="true"></column>
+			<column fieldName="widgetUrl" title="窗口url" identifier="true" ignore="true"></column>
+			<column fieldName="roleCode" title="角色编码" identifier="true"></column>
+			<column fieldName="widgetCode" title="窗口编码" identifier="true"></column>
+		</data-sheet>
+		<data-sheet name="PORTAL_WIDGET_PARAMETER">
+			<column fieldName="code" title="参数编码" identifier="true"></column>
+			<column fieldName="widgetCode" title="窗口编码" identifier="true"></column>
+			<column fieldName="name" title="参数名称" ></column>
+			<column fieldName="title" title="参数别名"></column>
+			<column fieldName="controlType" title="参数类型" dataType="ENUM" enumName="com.norteksoft.portal.base.enumeration.ControlType"></column>
+			<column fieldName="defaultValue" title="参数默认值" ></column>
+			<column fieldName="optionCode" title="选项组编码" ></column><!-- 选项组id -->
+			<column fieldName="optionGroupName" title="选项组名称" ></column>
+		</data-sheet>
+		<data-sheet name="ACS_PRODUCTS">
+			<column fieldName="productName" title="产品名称" identifier="true"></column>
+			<column fieldName="version" title="产品版本" identifier="true"></column>
+			<column fieldName="systemCode" title="系统编码" identifier="true"></column>
+		</data-sheet>
+		<data-sheet name="ACS_PRICE_POLICYS">
+			<column fieldName="priceName" title="价格策略名称"></column>
+			<column fieldName="amount" title="价格策略金额" dataType="DOUBLE"></column>
+			<column fieldName="productName" title="产品名称" identifier="true"></column>
+			<column fieldName="productVersion" title="产品版本" identifier="true"></column>
+			<column fieldName="systemCode" title="系统编码" identifier="true"></column>
+			<column fieldName="remark" title="备注"></column>
+		</data-sheet>
+		<data-sheet name="WF_TYPE">
+			<column fieldName="code" title="类型编号" identifier="true"></column>
+			<column fieldName="name" title="类型名称" ></column>
+		</data-sheet>
+		<data-sheet name="WF_DEFINITION"><!-- 流程管理员和创建人默认为系统管理员 ，生成流程定义时注意版本控制-->
+			<column fieldName="code" title="流程编号" identifier="true"></column>
+			<column fieldName="version" title="流程版本" identifier="true" dataType="INTEGER"></column>
+			<column fieldName="name" title="流程名称"></column>
+			<column fieldName="formName" title="表单名称"></column>
+			<column fieldName="formCode" title="表单编码"></column>
+			<column fieldName="fromVersion" title="表单版本" dataType="INTEGER"></column>
+			<column fieldName="typeCode" title="流程所属类型"></column><!-- 流程所属类型id -->
+			<column fieldName="systemCode" title="流程所在系统编码" identifier="true"></column><!-- 系统id -->
+			<column fieldName="processType" title="流程类型(固定流程或自由流程)"></column>
+			<column fieldName="customType" title="流程自定义类型"></column>
+		</data-sheet>
+		<data-sheet name="WF_DEFINITION_FILE">
+			<column fieldName="defCode" title="流程编号" identifier="true"></column><!-- 流程定义id -->
+			<column fieldName="defVersion" title="流程版本" identifier="true" dataType="INTEGER"></column>
+			<column fieldName="systemCode" title="流程所在系统编码" identifier="true" ></column>
+			<column fieldName="document" title="流程图xml"></column>
+		</data-sheet>
+		<data-sheet name="WF_DATA_DICTIONARY_TYPE">
+			<column fieldName="no" title="类型编号" identifier="true"></column>
+			<column fieldName="name" title="类型名称"></column>
+			<column fieldName="systemCode" title="系统编码"></column><!-- 系统id -->
+			<column fieldName="typeCodes" title="包含的子类型编号以逗号隔开"></column><!-- 类型id的集合，已逗号隔开的字符串 -->
+		</data-sheet>
+		<data-sheet name="WF_DATA_DICTIONARYS">
+			<column fieldName="info" title="数据字典标题" identifier="true"></column>
+			<column fieldName="typeNo" title="类型编号"></column><!-- 类型id -->
+			<column fieldName="typeName" title="类型名称"></column>
+			<column fieldName="type" title="1.设置办理人 /2.设置正文权限" dataType="INTEGER"></column>
+			<column fieldName="operation" title="操作权限"></column>
+			<column fieldName="displayIndex" title="显示顺序" dataType="INTEGER"></column>
+			<column fieldName="processType" title="数据类型(通用,选择)" dataType="INTEGER"></column>
+			<column fieldName="remark" title="扩展字段"></column>
+		</data-sheet>
+		<data-sheet  name="WF_DATA_DICTIONARY_PROCESS">
+			<column fieldName="dictInfo" title="所属数据字典" identifier="true"></column><!-- 数据字典id -->
+			<column fieldName="definitionCode" title="流程编号" identifier="true"></column><!-- 流程定义id -->
+			<column fieldName="definitionVersion" title="流程版本" identifier="true"></column>
+			<column fieldName="systemCode" title="流程所属版本" identifier="true"></column>
+			<column fieldName="processDefinitionName" title="流程名称"></column>
+			<column fieldName="tacheName" title="环节名称" identifier="true"></column>
+		</data-sheet>
+		<data-sheet  name="WF_DATA_DICTIONARY_USERS">
+			<column fieldName="dictInfo" title="人员所属数据字典" identifier="true"></column><!-- 数据字典id -->
+			<column fieldName="type" title="类型" identifier="true" dataType="ENUM" enumName="com.norteksoft.wf.base.enumeration.DataDictUserType"></column>
+			<column fieldName="loginName" title="人员登录名" identifier="true"></column>
+			<column fieldName="infoIdenty" title="部门编码/工作组编码/用户上下级关系标题" identifier="true"></column><!-- 部门id/工作组id -->
+			<column fieldName="infoName" title="人员名称/部门名称/工作组名称/用户上下级关系标题"></column>
+		</data-sheet>
+		<data-sheet name="BS_SUPERIOR">
+			<column fieldName="title" title="标题描述" identifier="true"></column>
+			<column fieldName="loginName" title="直属上级登录名" ></column><!-- 直属上级id -->
+			<column fieldName="systemCode" title="系统编码"></column><!-- 系统id -->
+		</data-sheet>
+		<data-sheet name="BS_SUBORDINATE">
+			<column fieldName="rankTitle" title="上下级标题描述" identifier="true"></column><!-- DATA_DICT_RANK_ID -->
+			<column fieldName="subordinateType" title="人员、部门、工作组"  identifier="true" dataType="ENUM" enumName="com.norteksoft.bs.rank.enumeration.SubordinateType"></column><!-- 直属上级id -->
+			<column fieldName="infoIdenty" title="部门编码/工作组编码" identifier="true"></column><!-- 部门id,工作组id -->
+			<column fieldName="name" title="用户真名,部门名称，工作组名称"></column>
+			<column fieldName="loginName" title="用户登录名" identifier="true"></column><!-- 用户id -->
+			<column fieldName="systemCode" title="系统编码"></column><!-- 系统id -->
+		</data-sheet>
+		<data-sheet name="BS_OPTION_GROUP">
+			<column fieldName="code" title="选项组编号" identifier="true"></column>
+			<column fieldName="workCode" title="业务编码"></column>
+			<column fieldName="name" title="选项组名称"></column>
+			<column fieldName="description" title="选项组描述"></column>
+			<column fieldName="systemCode" title="系统编码"></column><!-- 系统id -->
+		</data-sheet>
+		<data-sheet name="BS_OPTION">
+			<column fieldName="groupNo" title="选项组编号" identifier="true"></column><!-- optionGroup -->
+			<column fieldName="name" title="选项名" identifier="true"></column>
+			<column fieldName="value" title="选项值" identifier="true"></column>
+			<column fieldName="optionIndex" title="选项顺序" dataType="INTEGER"></column>
+			<column fieldName="selected" title="是否默认选中" dataType="BOOLEAN"></column>
+		</data-sheet>
+		<data-sheet name="BS_TIMED_TASK">
+			<column fieldName="code" title="定时编号" identifier="true"></column>
+			<column fieldName="systemCode" title="系统编码" identifier="true"></column><!-- 系统id和系统编码 -->
+			<column fieldName="url" title="运行URL"></column>
+			<column fieldName="description" title="备注"></column>
+			<column fieldName="runAsUser" title="运行身份当前用户登陆名"></column>
+			<column fieldName="runAsUserName" title="运行身份当前用户姓名"></column>
+			<column fieldName="timeout" title="超时时间" dataType="INTEGER"></column>
+			<column fieldName="dataState" title="状态" dataType="ENUM" enumName="com.norteksoft.product.enumeration.DataState"></column>
+			<column fieldName="applyType" title="访问方式" dataType="ENUM" enumName="com.norteksoft.bs.options.enumeration.ApplyType"></column>
+		</data-sheet>
+		<data-sheet name="BS_TIMER">
+			<column fieldName="timingType" title="定时类别" identifier="true" dataType="ENUM" enumName="com.norteksoft.bs.options.enumeration.TimingType"></column>
+			<column fieldName="dateTime" title="日期" identifier="true"></column>
+			<column fieldName="weekTime" title="星期"  identifier="true"></column>
+			<column fieldName="corn" title="时间"  identifier="true"></column>
+			<column fieldName="appointTime" title="指定时间"  identifier="true"></column>
+			<column fieldName="appointSet" title="高级设置"  identifier="true"></column>
+			<column fieldName="jobCode" title="定时编号" identifier="true"></column>
+			<column fieldName="systemCode" title="系统编码" identifier="true"></column><!-- 系统id和系统编码 -->
+		</data-sheet>
+		<data-sheet name="BS_INTERNATION">
+			<column fieldName="code" title="国际化编号" identifier="true"></column>
+			<column fieldName="remark" title="备注"></column>
+		</data-sheet>
+		<data-sheet name="BS_INTERNATION_OPTION">
+			<column fieldName="categoryOptionCode" title="国际化语言种类编号" identifier="true"></column>
+			<column fieldName="categoryOptionName" title="国际化语言种类名" identifier="true"></column>
+			<column fieldName="categoryName" title="国际化语言种类" identifier="true"></column>
+			<column fieldName="value" title="国际化值" identifier="true"></column>
+			<column fieldName="internationCode" title="国际化编号" identifier="true"></column>
+		</data-sheet>
+		<data-sheet name="MMS_OPERATION">
+			<column fieldName="code" title="编码"  identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="remark" title="备注" ></column>
+			<column fieldName="systemCode" title="系统编码" identifier="true"></column><!-- 系统id -->
+			<column fieldName="parentCode" title="父功能编码"></column><!-- 系统id -->
+		</data-sheet>
+		<data-sheet name="PORTAL_THEME">
+			<column fieldName="code" title="编码"  identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="dataState" title="状态" dataType="ENUM" enumName="com.norteksoft.product.enumeration.DataState"></column>
+		</data-sheet>
+		<data-sheet name="BS_IMPORT_DEFINITION">
+			<column fieldName="code" title="编号"  identifier="true"></column>
+			<column fieldName="alias" title="别名" ></column>
+			<column fieldName="name" title="数据表名" ></column>
+			<column fieldName="relevanceName" title="关联表名" ></column>
+			<column fieldName="foreignKey" title="外键" ></column>
+			<column fieldName="remark" title="备注" ></column>
+			<column fieldName="importType" title="导入类型" dataType="ENUM" enumName="com.norteksoft.bs.options.enumeration.ImportType"></column>
+			<column fieldName="importWay" title="导入方式" dataType="ENUM" enumName="com.norteksoft.bs.options.enumeration.ImportWay"></column>
+			<column fieldName="divide" title="分隔符" ></column>
+		</data-sheet>
+		<data-sheet name="BS_IMPORT_COLUMN">
+			<column fieldName="importCode" title="导入编号"  identifier="true"></column>
+			<column fieldName="name" title="字段名称" identifier="true"></column>
+			<column fieldName="alias" title="字段别名" ></column>
+			<column fieldName="dataType" title="字段类型" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.DataType"></column>
+			<column fieldName="displayOrder" title="显示顺序" dataType="Integer"></column>
+			<column fieldName="width" title="固定长度" dataType="Integer"></column>
+			<column fieldName="notNull" title="不可以为空" dataType="BOOLEAN"></column>
+			<column fieldName="defaultValue" title="默认值" ></column>
+			<column fieldName="businessType" title="主键类型" dataType="ENUM" enumName="com.norteksoft.bs.options.enumeration.BusinessType"></column>
+		</data-sheet>
+		<data-sheet name="BS_SIGNATURE">
+			<column fieldName="userLoginName" title="用户登录名"  identifier="true"></column>
+			<column fieldName="userName" title="用户名称" ></column>
+			<column fieldName="pictureSrc" title="图片路径" ></column>
+		</data-sheet>
+		<data-sheet name="MMS_RULE_TYPE">
+			<column fieldName="code" title="编号"  identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="parentCode" title="父类别编号" ></column>
+		</data-sheet>
+		<data-sheet name="MMS_DATA_RULE">
+			<column fieldName="code" title="编号"  identifier="true"></column>
+			<column fieldName="name" title="名称" ></column>
+			<column fieldName="dataTableName" title="数据表名称" ></column>
+			<column fieldName="remark" title="备注" ></column>
+			<column fieldName="ruleTypeCode" title="规则类别编号" ></column>
+			<column fieldName="systemCode" title="系统编号" ></column>
+		</data-sheet>
+		<data-sheet name="MMS_CONDITION">
+			<column fieldName="fieldName" title="字段名"  ></column>
+			<column fieldName="field" title="数据表字段" identifier="true"></column>
+			<column fieldName="operator" title="比较符号" dataType="ENUM" enumName="com.norteksoft.mms.authority.enumeration.FieldOperator" identifier="true"></column>
+			<column fieldName="lgicOperator" title="条件连接类型" dataType="ENUM" enumName="com.norteksoft.wf.base.enumeration.LogicOperator" identifier="true"></column>
+			<column fieldName="dataType" title="字段数据类型" dataType="ENUM" enumName="com.norteksoft.mms.form.enumeration.DataType" identifier="true"></column>
+			<column fieldName="conditionValue" title="条件值" identifier="true"></column>
+			<column fieldName="enumPath" title="枚举全路径" ></column>
+			<column fieldName="dataRuleCode" title="数据规则编号" identifier="true"></column>
+		</data-sheet>
+		<data-sheet name="MMS_PERMISSION">
+			<column fieldName="priority" title="优先级" dataType="Integer" identifier="true"></column>
+			<column fieldName="authority" title="操作权限" dataType="Integer" identifier="true"></column>
+			<column fieldName="dataRuleCode" title="数据规则编号" identifier="true"></column>
+		</data-sheet>
+		<data-sheet name="MMS_PERMISSION_ITEM">
+			<column fieldName="itemType" title="条件类型" dataType="ENUM" enumName="com.norteksoft.mms.authority.enumeration.ItemType" identifier="true"></column>
+			<column fieldName="operator" title="操作符" dataType="ENUM" enumName="com.norteksoft.mms.authority.enumeration.UserOperator" identifier="true"></column>
+			<column fieldName="joinType" title="连接符" dataType="ENUM" enumName="com.norteksoft.wf.base.enumeration.LogicOperator" identifier="true"></column>
+			<column fieldName="conditionValue" title="条件隐藏值" identifier="true" ></column>
+			<column fieldName="conditionName" title="条件显示值"  identifier="true"></column>
+			<column fieldName="displayOrder" title="显示顺序" dataType="Integer" identifier="true"></column>
+			<column fieldName="priority" title="优先级" dataType="Integer" identifier="true"></column>
+			<column fieldName="authority" title="操作权限" dataType="Integer" identifier="true"></column>
+			<column fieldName="dataRuleCode" title="数据规则编号" identifier="true"></column>
+		</data-sheet>
+	</sheets>
+	<file-configs exportPath="basic-data" importPath="basic-data-temp">
+		<file-config data="ACS_SYSTEM" title="系统" filename="acs-bussiness-info" exportPath="acs" importOrder="1" importPath="acs"  category="basicData" beanname="exportImportData"></file-config>
+		<file-config data="ACS_PRODUCT" title="系统产品" filename="acs-product-info" exportPath="acs" importOrder="2" importPath="acs"  category="basicData" beanname="exportImportData"></file-config>
+		<file-config data="ACS_GROUP" title="资源组" filenameStartwith="acs-func-group" exportPath="acs" importOrder="3" importPath="acs"  category="basicData" beanname="exportImportData"></file-config>
+		<file-config data="ACS_ROLE" title="角色" filenameStartwith="acs-role" exportPath="acs" importOrder="4" importPath="acs"  category="basicData" beanname="exportImportData"></file-config>
+		<file-config data="ACS_ROLE_COMPANY" visible="false" title="角色（带有公司id）" filenameStartwith="acs-role" exportPath="acs/comapny-role" importOrder="1"  importPath="acs/comapny-role"  beanname="exportImportData" category="initData" ></file-config>
+		<file-config data="PORTAL_INFO" title="门户信息" filename="portal-info" importOrder="6"    beanname="exportImportData" category="initData" ></file-config>
+		<file-config data="MMS_MENU"  title="菜单" filename="menu-info" importOrder="1"    beanname="exportImportData" category="initData" ></file-config>
+		<file-config data="MMS_DATA_TABLE" title="数据表" filenameStartwith="data-table" importOrder="2"    beanname="exportImportData" category="initData" ></file-config>
+		<file-config data="MMS_LIST_VIEW" title="列表" filenameStartwith="list-view" importOrder="7"    beanname="exportImportData" category="initData" ></file-config>
+		<file-config data="MMS_FORM_VIEW" title="表单" filenameStartwith="form-view" importOrder="8"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="JOB_INFO"  title="定时信息" filename="job-info" importOrder="11"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="WF_TYPE"  title="流程类型" filename="definition-type-info" importOrder="3"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="WF_DEFINATION" title="流程定义" filename="definition-info" importOrder="5"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="DATA_DICT"  title="数据字典" filename="data-dict-info" importOrder="10"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="OPTION_GROUP"  title="选项组" filename="option-info" importOrder="4"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="RANK"  title="用户上下级关系" filename="rank-info" importOrder="9"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="INTERNATION"  title="国际化设置" filename="internation-info" importOrder="12"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="OPERATION"  title="通用类型管理" filename="operation-info" importOrder="13"    beanname="exportImportData" category="initData"></file-config>
+		<file-config data="PORTAL_THEME"  title="主题" filename="theme" importOrder="14"    beanname="indexManager" category="initData"></file-config>
+		<file-config data="BS_IMPORT_DEFINITION"  title="导入管理" filename="import-definition" importOrder="15"    beanname="importDefinitionManager" category="initData"></file-config>
+		<file-config data="BS_SIGNATURE"  title="签章设置" filename="signature" importOrder="16"    beanname="importSignatureManager" category="initData"></file-config>
+		<file-config data="MMS_RULE_TYPE"  title="规则类别" filename="mms-rule-type" importOrder="17"    beanname="importAuthorityManager" category="initData"></file-config>
+		<file-config data="MMS_DATA_RULE"  title="数据规则" filename="mms-data-rule" importOrder="18"    beanname="importAuthorityManager" category="initData"></file-config>
+		<file-config data="MMS_PERMISSION"  title="数据授权" filename="mms-permission" importOrder="19"    beanname="importAuthorityManager" category="initData"></file-config>
+	</file-configs>
+</data-sheets>

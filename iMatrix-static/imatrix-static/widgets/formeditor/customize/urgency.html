@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>紧急程度控件</title>
+    <style type="text/css" >
+      body {
+	      font-size:12px;
+	      margin: 0px;
+	      background-color:#F0F0EE;
+	      overflow: hidden;
+      }
+      td {
+	      font-size:12px;
+	      padding: 3px;
+      }
+      .first{
+      	width: 10px;
+      }
+      .selected_td .first{
+      	background-color:#2971A7;
+      }
+     
+    </style>
+     <script type="text/javascript" src="../../../js/jquery.js"></script>
+	<script type="text/javascript">
+	var arry = ["紧急程度最高:红旗","蓝旗","黄旗","绿旗","橙旗","紫旗","紧急程度最低:无"];
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		KE.event.ready(function() {
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.nodeName!="SELECT"){
+				startNode=startNode.parentNode.parentNode;
+			}
+			if(startNode.name!=undefined){
+				for(var i=0;i<startNode.length;i++){
+					//select.options.add(new Option(startNode.options[i].text,startNode.options[i].value));
+					//
+					var img = "<img alt=\""+arry[startNode.options[i].value]+"\" src=\"../../../images/"+startNode.options[i].value+".gif\">";
+					addContent(img,startNode.options[i].text,startNode.options[i].value);
+				}
+			}
+		}, window, document);
+		function removeOption(){
+			$("#contentTable").find("tr").each(function(i){
+				if($(this).hasClass("selected_td")){
+					$(this).remove();
+				}
+			});
+
+		}
+
+		function addOption(){
+			var val = $("#add_input").val();
+			if(val==''){
+				alert("请输入紧急程度的文字描述");
+				return;
+			}
+
+			var redio = $("input[name='flag']:checked");
+			if(redio.length==0){
+				alert("请选择对应旗子");
+				return;
+			}
+			
+			addContent($(redio).next()[0].outerHTML,val,$(redio).attr("value"));
+			$("#add_input").attr("value","");
+			$(redio).attr("checked",false);
+			$(redio).next().next().attr("checked",true);
+		}
+
+		function addContent(img,text,value){
+			var html = "<tr onclick=\"select(this);\"><td class=\"first\">"+img+"</td><td value=\""+value+"\">"+text+"</td><tr>";
+			$("#contentTable").append(html);
+		}
+		function select(obj){
+			$(obj).parent().children().each(function(){
+				$(this).removeClass("selected_td");
+			});
+			$(obj).addClass("selected_td");
+		}
+	</script>
+  </head>
+  <body>
+      <table >
+    <tr>
+      <td colspan="3" style="text-align:left">
+      	请输入紧急程度，并选择标志紧急程度的旗子。<br/>
+      	红旗紧急程度最高，无表示紧急程度最低。
+      </td>
+    </tr>
+    <tr>
+      <td  style="text-align:right">紧急程度：</td>
+      <td ><input type="text" name="add_input" id="add_input" maxlength="15" style="width: 220px;"/></td>
+      <td >文字描述(最多15字)</td>
+    </tr>
+    <tr >
+      <td  style="text-align:right">
+			对应旗子：
+	</td>
+      <td colspan="2">
+	      <input type="radio" name="flag" value="0" title="紧急程度最高:红旗" checked="checked"/><img alt="紧急程度最高:红旗" src="../../../images/0.gif">
+	      <input type="radio" name="flag" value="1" title="蓝旗"/><img alt="蓝旗" src="../../../images/1.gif">
+	      <input type="radio" name="flag" value="2" title="黄旗"/><img alt="黄旗" src="../../../images/2.gif">
+	      <input type="radio" name="flag" value="3" title="绿旗"/><img alt="绿旗" src="../../../images/3.gif">
+	      <input type="radio" name="flag" value="4" title="橙旗"/><img alt="橙旗" src="../../../images/4.gif">
+	      <input type="radio" name="flag" value="5" title="紫旗"/><img alt="紫旗" src="../../../images/5.gif">
+	      <input type="radio" name="flag" value="6" title="紧急程度最低:无"/>无<img alt="紫旗" src="../../../images/6.gif">
+	</td>
+    </tr>
+    <tr>
+      <td rowspan="4" align="right" valign="top">已有选项：</td>
+      <td rowspan="4" valign="top">
+      	<div style="float: left; border: 1px solid gray; width: 220px; height: 200px; overflow: auto;">
+			<table id="contentTable" style="width: 100%;">
+      		</table>
+		</div>
+      </td>
+      <td style="border:none">
+	      <input type="button" name="add_button" id="add_button" value="增加" onclick="addOption();"/><br/>
+	      <input type="button" name="delete_button" id="delete_button" value="删除" onclick="removeOption();"/>
+      </td>
+    </tr>
+  </table>
+  </body>
+</html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd  http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true" default-autowire="byName">
+
+	<description>Spring公共配置文件 </description>
+
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 标准配置 -->
+				<value>classpath*:/application.properties</value>
+				<!-- 本地开发环境配置 -->
+				<value>classpath*:/application.local.properties</value>
+				<!-- 服务器生产环境配置 -->
+				<!-- <value>file:/var/myapp/application.server.properties</value> -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.norteksoft.product.api" />
+	<context:component-scan base-package="com.norteksoft.portal" />
+	<context:component-scan base-package="com.norteksoft.acs" />
+	<context:component-scan base-package="com.norteksoft.mms" />
+	<context:component-scan base-package="com.norteksoft.wf" />
+	<context:component-scan base-package="com.norteksoft.task" />
+	<context:component-scan base-package="com.norteksoft.bs" />
+	<context:component-scan base-package="com.norteksoft.tags.search" />
+	<context:component-scan base-package="com.norteksoft.product.orm.hibernate" />
+
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<!-- 数据源配置,使用应用内的DBCP数据库连接池 -->
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		
+		<property name="driverClassName" value="${hibernate.connection.driver_class}" />
+		<property name="url" value="${hibernate.connection.url}" />
+		<property name="username" value="${hibernate.connection.username}" />
+		<property name="password" value="${hibernate.connection.password}" />
+
+	
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="100" />
+		<property name="maxIdle" value="30" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>-->
+
+	<!-- 数据源配置,使用应用服务器的数据库连接池 -->
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/${jndi.name}" />
+
+	<!-- Hibernate配置 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+		<!-- 
+		<property name="entityInterceptor" ref="auditInterceptor"/>
+		 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+			  	 <!--<prop key="hibernate.hbm2ddl.auto">update</prop> 
+			--></props>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>classpath*:jbpm.repository.hbm.xml</value>
+				<value>classpath*:jbpm.execution.hbm.xml</value>
+				<value>classpath*:jbpm.history.hbm.xml</value>
+				<value>classpath*:jbpm.task.hbm.xml</value>
+				<value>classpath*:jbpm.identity.hbm.xml</value>
+			</list>
+		</property>
+		<property name="packagesToScan">
+			<list >	
+				<value>com.norteksoft.portal.entity</value>
+				<value>com.norteksoft.acs.entity.*</value>
+				<value>com.norteksoft.mms.form.entity</value>
+				<value>com.norteksoft.mms.module.entity</value>
+				<value>com.norteksoft.mms.authority.entity</value>
+				<value>com.norteksoft.wf.engine.entity</value>
+				<value>com.norteksoft.task.entity</value>
+				<value>com.norteksoft.bs.rank.entity</value>
+				<value>com.norteksoft.bs.options.entity</value>
+				<value>com.norteksoft.bs.holiday.entity</value>
+				<value>com.norteksoft.bs.signature.entity</value>
+			</list>
+		</property>
+		<property name="eventListeners">
+			<map>
+				<entry key="save-update">
+					<ref bean="saveOrUpdateListener"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!--
+	<bean id="auditInterceptor" name="auditInterceptor" class="com.norteksoft.product.orm.hibernate.AuditInterceptor"/>
+	-->
+	
+	<!-- 事务管理器配置,单数据源事务 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper" />
+	<bean id="processEngine" factory-bean="springHelper" factory-method="createProcessEngine" />
+    
+    <!-- JDBC Ben -->
+    <!--<bean id="jdbcDao" class="com.norteksoft.mms.form.jdbc.impl.MySqlJdbc">
+    	<property name="dataSource" ref="dataSource"/>
+    </bean>
+      
+   --><!--<bean id="jdbcDao" class="com.norteksoft.mms.form.jdbc.impl.OracleJdbc">
+    	<property name="dataSource" ref="dataSource"/>
+    </bean> 
+   
+    --> 
+   	<bean id="jdbcDao" class="com.norteksoft.mms.form.jdbc.impl.SqlServerJdbc">
+   		<property name="dataSource" ref="dataSource"/>
+    </bean> 
+    <!--
+    <bean id="mongoService" class="com.norteksoft.product.mongo.MongoService">
+    	<property name="host" value="${mongo.host}"></property>
+    	<property name="port" value="${mongo.port}"></property>
+    	<property name="dbname" value="${mongo.dbname}"></property>
+    	<property name="username" value="${mongo.username}"></property>
+    	<property name="password" value="${mongo.password}"></property>
+    </bean>
+    
+    --><bean id="fileService" class="com.norteksoft.product.api.impl.FileServiceImpl">
+    	<!--<property name="mongoService" ref="mongoService"></property>
+    --></bean>
+</beans>

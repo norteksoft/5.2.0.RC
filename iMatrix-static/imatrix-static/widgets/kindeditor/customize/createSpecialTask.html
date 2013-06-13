@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>是否特事特办</title>
+    <style type="text/css" >
+      body {
+      font-size:12px;
+      margin: 0px;
+      background-color:#F0F0EE;
+      overflow: hidden;
+      }
+      td {
+      font-size:12px;
+      padding: 3px;
+      }
+     
+    </style>
+	<script type="text/javascript">
+		var KE = parent.KE;
+		location.href.match(/\?id=([\w-]+)/i);
+		var id = RegExp.$1;
+		KE.event.ready(function() {
+			var Rname = KE.$('Rname', document);
+			var RengName = KE.$('RengName', document);
+			var Rvalue = KE.$('Rvalue', document);
+			var Rcheck = KE.$('Rcheck', document);
+			
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.name!=undefined){
+				RengName.value=startNode.name;
+				if(startNode.getAttribute("chName")!=undefined)Rname.value=startNode.getAttribute("chName");
+				if(startNode.value!=undefined)Rvalue.value=startNode.value;
+				if(startNode.checked==true)Rcheck.checked=true;
+			}
+		}, window, document);
+
+	</script>
+  </head>
+  <body>
+     <table border="0" cellpadding="0" cellspacing="0">
+     <tr><td colspan="3">该控件是供需进行特事特办时使用。当填写表单的人选中该控件时表示需要发起特事特办。</td></tr>
+      <tr>
+      		<td align="right">字段名：</td> 
+      		<td><input  name="RengName" id="RengName" type="text" readonly="readonly" value="create_special_task"/></td> 
+      		<td>固定值，不可修改</td>
+      </tr>
+      <tr>
+      		<td align="right">标题：</td>
+      		<td><input name="Rname" id="Rname" type="text"  readonly="readonly" value="是否进行特事特办"/></td>
+      		<td>固定值，不可修改</td>
+      </tr>
+    </table>
+  </body>
+</html>

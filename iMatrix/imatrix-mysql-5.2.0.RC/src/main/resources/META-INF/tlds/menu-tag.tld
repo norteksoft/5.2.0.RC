@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+  <description><![CDATA["封装了模块管理的功能标签"]]></description>
+  <display-name>"模块管理功能标签"</display-name>
+  <tlib-version>1.0</tlib-version>
+  <short-name>menu</short-name>
+  <uri>http://www.norteksoft.com/menu/tags</uri>
+  <tag>
+    <description><![CDATA[一级菜单标签]]></description>
+    <name>firstMenu</name>
+    <tag-class>com.norteksoft.tags.menu.MenuTag</tag-class>
+    <body-content>tagdependent</body-content>
+    <attribute>
+      <description><![CDATA[一级菜单前方logo图的位置]]></description>
+      <name>imgSrc</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description><![CDATA[显示数量]]></description>
+      <name>showNum</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
+    <description><![CDATA[二级菜单标签]]></description>
+    <name>secondMenu</name>
+    <tag-class>com.norteksoft.tags.menu.SecondMenuTag</tag-class>
+    <body-content>tagdependent</body-content>
+    <attribute>
+		<name>code</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+  </tag>
+  <tag>
+    <description><![CDATA[三级菜单标签]]></description>
+    <name>leftMenu</name>
+    <tag-class>com.norteksoft.tags.menu.LeftMenuTag</tag-class>
+    <body-content>tagdependent</body-content>
+  </tag>
+</taglib>

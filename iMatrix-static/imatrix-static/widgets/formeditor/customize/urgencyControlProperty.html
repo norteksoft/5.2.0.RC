@@ -1,0 +1,98 @@
+<html>
+<head>
+ 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>紧急程度设置控件</title>
+</head>
+<body>
+<div style="margin: 20px;">
+	<P>组件：紧急程度设置控件</P>
+	<p>字段名：priority</p>
+	<p>标题名：紧急程度</p>
+	<p>已有选项：<select name="urgency_select" size="6" multiple="multiple" id="urgency_select" style="width: 150px">
+      </select></p>
+	<p>表单紧急程度：<input type="text" name="add_input" id="add_input" style="width: 150px"/></p>
+	<p  class="buttonP"><a href="#" id="upd" class="btnStyle " onclick="Add()">增加</a><a href="#" id="upd" class="btnStyle " onclick="deleteOption()">删除</a> </p>
+	<p>列表显示：<input name="display" id="display" type="checkbox"   onclick="display()"/></p>
+	<p id="displaytip" > 显示位置：第<select id="displayorder">
+									</select>
+									列
+	</p>
+	<p  class="buttonP">
+		<a href="#" id="upd" class="btnStyle " onclick="ok()">确定</a>
+		
+		<a href="#" id="upd" class="btnStyle " onclick="cancel()">取消</a>
+	</p>
+	
+	<script type="text/javascript">
+
+		
+		function cancel(){
+			init();
+		}
+		function ok(){
+			KE.plugin['urgency'].update(id);
+		}
+
+		function display(){
+			$("#displaytip").toggle();
+		}
+
+		function order(index){
+			for(var i=0;i<30;i++){
+				if(index==i){
+					$("<option value='"+i+"' selected='selected' >"+i+"</option>").appendTo($("#displayorder"));
+				}else{
+					$("<option value='"+i+"'>"+i+"</option>").appendTo($("#displayorder"));
+				}
+			}
+		}
+		//增加
+		var index = 0;
+		function Add(){
+			var value = document.getElementById( "add_input" ) ;
+			var select = document.getElementById( "urgency_select" ) ;
+			select.options.add(new Option(value.value,index));
+			index++;
+			value.value="";
+		}
+
+		function deleteOption(){
+			var select = document.getElementById( "urgency_select" ) ;
+			if(select.options.length>0){
+				if(select.selectedIndex!=-1){
+					select.remove(select.selectedIndex);
+				}
+			}
+		}
+
+		function init(){
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			if(startNode.nodeName!="SELECT"){
+				startNode=startNode.parentNode.parentNode;
+			}
+			var display = $(startNode).attr("display");
+			var order_ = $(startNode).attr("order");
+			if(display=="true"){
+				$("#display").attr("checked",display);
+				$("#displaytip").show();
+			}else{
+				$("#displaytip").hide();
+			}
+			order(order_);
+			var select = document.getElementById("urgency_select");
+			for(var i=1;i<startNode.length;i++){
+				select.options.add(new Option(startNode.options[i].text,startNode.options[i].value));
+			}
+			index = startNode.length;
+			$("#urgency_select").html($(startNode).html());
+			if(KE.lang["formMode"] == "develop" ){
+				develop();
+			}
+		}
+		init();
+		
+	</script>
+</div>
+</body>
+</html>

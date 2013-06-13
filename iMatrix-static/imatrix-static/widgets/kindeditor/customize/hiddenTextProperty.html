@@ -1,0 +1,52 @@
+<html>
+<head>
+ 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>隐藏域</title>
+</head>
+<body>
+<div style="margin: 20px;">
+	<p>组件：隐藏域</p>
+    <p>字段名：<input onblur=""  type="text"  id="OengName"  value=""/> </p>
+	<p>标题：<input onblur="" type="text" name="Oname" id="Oname" value=""/> </p>
+	<p>初始值：<input type="text" name="Oinit" id="Oinit" value="" /> </p>
+	<p>字段类型：<select id="OfieldType" name="OfieldType">
+					<option value="TEXT" >文本</option>
+					<option value="NUMBER">整数</option>
+					<option value="AMOUNT">小数</option>
+					</select>
+	</p>
+	<p><a href="#" id="upd" class="btnStyle " onclick="ok()">确定</a>
+		<a href="#" id="upd" class="btnStyle " onclick="cancel()">取消</a>
+	</p>
+	
+	<script type="text/javascript">
+		function cancel(){
+			init();
+		}
+		function ok(){
+			KE.plugin['OneLineText'].update(id);
+		}
+	
+		function init(){
+			var g = KE.g[id];  
+			var startNode =g.keRange.startNode;
+			
+			var title = $(startNode).attr("chName");
+			var fieldName = $(startNode).attr("name");
+			var value = $(startNode).attr("value");
+			var OfieldType = $(startNode).attr("dataType");;
+			
+			$("#OengName").attr("value",fieldName);
+			$("#Oinit").attr("value",value);
+			$("#Oname").attr("value",title);
+			$("#OfieldType").attr("value",OfieldType);
+			if(KE.lang["formMode"] == "develop" ){
+				develop();
+			}
+		}
+		init();
+		
+	</script>
+</div>
+</body>
+</html>

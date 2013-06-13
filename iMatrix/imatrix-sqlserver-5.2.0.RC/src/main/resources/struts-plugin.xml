@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="acs" extends="struts-default" namespace="/portal">
+		<interceptors>
+            <interceptor-stack name="acsLoginDefault">
+                <interceptor-ref name="validationWorkflowStack"/>
+            </interceptor-stack>
+        </interceptors>
+        
+        <default-interceptor-ref name="acsLoginDefault"/>
+
+	    <action name="login">
+			<result type="freemarker" name="success">/login.ftl</result>
+		</action>
+	
+		<action name="update-password">
+			<result type="freemarker" name="success">/update-password.ftl</result>
+	    </action>
+	
+		<action name="check-login-password" method="checkLoginPassword" class="com.norteksoft.acs.web.organization.UserAction">
+	    </action>
+	
+	    <action name="update-old-password" method="updatePassword" class="com.norteksoft.acs.web.organization.UserAction">
+		<result name="redirect_url">${redirectUrl}</result>
+	    </action>
+	
+		<action name="check-old-password" method="checkOldPassword" class="com.norteksoft.acs.web.organization.UserAction">
+		</action>
+		
+		<action name="load-tree" method="getTree" class="com.norteksoft.acs.web.organization.LoadTreeAction">
+		</action>
+		
+		<action name="exception-handle" class="com.norteksoft.acs.web.tags.ExceptionHandleAction">
+			<result type="freemarker" name="403">/403.ftl</result>
+			<result type="freemarker" name="404">/404.ftl</result>
+			<result type="freemarker" name="500">/500.ftl</result>
+		</action>
+		<action name="autoAuth" class="com.norteksoft.acs.web.tags.AutoAuthAction">
+		</action>
+		
+		 <action name="popTree" method="popTree" class="com.norteksoft.tags.tree.web.TreeAction">
+	   </action>
+	    <action name="removeOptionTree" method="removeOptionTree" class="com.norteksoft.tags.tree.web.TreeAction">
+	   		<result type="freemarker" name="remove-tree">/removeOptionTree.ftl</result>
+	   </action>
+	   <action name="tree" class="com.norteksoft.tags.tree.web.TreeAction">
+	   </action>
+	   <action name="ztree" class="com.norteksoft.tags.tree.web.ZTreeAction">
+	   </action>
+	   <action name="search-tree" method="searchTree" class="com.norteksoft.tags.tree.web.TreeAction">
+	   </action>
+	   <action name="search-ztree" method="searchZtree" class="com.norteksoft.tags.tree.web.ZTreeAction">
+	   </action>
+	    <action name="ztree-pop" method="popZtree" class="com.norteksoft.tags.tree.web.ZTreeAction">
+	   </action>
+	   <action name="remove-ztree" method="removeZtree" class="com.norteksoft.tags.tree.web.ZTreeAction">
+	   </action>
+		<action name="custom-tree" method="customTree" class="com.norteksoft.tags.tree.web.TreeAction">
+			<result  type="freemarker" name="success" >/custom-tree.ftl</result>
+	    </action>
+		<action name="format" method="format" class="com.norteksoft.tags.grid.web.FormatAction">
+			<result  type="freemarker" name="success" >/template/tags/grid/format.ftl</result>
+	    </action>
+		<action name="querySetting" method="querySetting" class="com.norteksoft.tags.grid.web.QuerySettingAction">
+			<result  type="freemarker" name="success" >/template/tags/grid/querySetting.ftl</result>
+	    </action>
+		<action name="controlType" method="controlType" class="com.norteksoft.tags.grid.web.ControlTypeAction">
+			<result  type="freemarker" name="success" >/template/tags/grid/controlType.ftl</result>
+	    </action>
+		<action name="my-message-error" method="messageError" class="com.norteksoft.portal.web.index.MyMessageAction">
+	    </action>
+		
+	   <action name="get-data" method="getData" class="com.norteksoft.mms.form.web.FormViewAction">
+		</action>
+		<action name="show-data-selection" method="showDataSelection" class="com.norteksoft.mms.form.web.FormViewAction">
+			<result type="freemarker" name="show-data-selection">/show-data-selection-tag.ftl</result>
+		</action>
+		<action name="export-data" method="exportData" class="com.norteksoft.portal.web.export.ExportAction">
+		</action>
+    </package> 
+
+	<package name="engine" extends="struts-default" namespace="/engine">
+		<!-- 基于paramsPrepareParamsStack,增加store interceptor -->
+		<interceptors>
+			<interceptor-stack name="storeStack">
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
+				<interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="storeStack" />
+		<action name="workflow-definition" class="com.norteksoft.wf.engine.web.WorkflowDefinitionAction">
+		</action>
+		<action name="workflow" class="com.norteksoft.wf.engine.web.WorkflowAction">
+		</action>
+		<action name="tree" class="com.norteksoft.wf.engine.web.TreeAction">
+		</action>
+		<action name="delegate-main" class="com.norteksoft.wf.engine.web.DelegateMainAction">
+		</action>
+		<action name="office" class="com.norteksoft.wf.engine.web.OfficeAction">
+		</action>
+		<action name="office-template" class="com.norteksoft.wf.engine.web.OfficeTemplateAction">
+		</action>
+		<action name="task" class="com.norteksoft.wf.engine.web.TaskAction">
+		</action>
+		<action name="upload" class="com.norteksoft.wf.engine.web.UploadAction">
+		</action>
+		<action name="data-dictionary" class="com.norteksoft.wf.engine.web.DataDictionaryAction">
+		</action>
+		<action name="data-dictionary-type" class="com.norteksoft.wf.engine.web.DataDictionaryTypeAction">
+		</action>
+		<action name="data-dictionary-rank" class="com.norteksoft.wf.engine.web.DataDictionaryRankAction">
+		</action>
+		<action name="text-history" class="com.norteksoft.wf.engine.web.WorkflowAction" method="textHistory">
+		</action>
+	</package> 
+</struts>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+		<function path="/index.jsp" ></function>
+		<function path="/casfailed.action" ></function>
+		<function path="/portal/exception-handle.action"></function>
+		<function path="/portal/my-message-error.action" ></function>
+		<function path="/portal/login.action" ></function>
+		<function path="/portal/update-password.action" ></function>
+		<function path="/portal/check-login-password.action" ></function>
+		<function path="/portal/update-old-password.action" ></function>
+		<function path="/portal/check-old-password.action" ></function>
+		<function path="/portal/load-tree.action" ></function>
+		<function path="/portal/autoAuth.action" ></function>
+		<function path="/portal/popTree.action" ></function>
+		<function path="/portal/ztree-pop.action" ></function>
+		<function path="/portal/removeOptionTree.action" ></function>
+		<function path="/portal/remove-ztree.action" ></function>
+		<function path="/portal/custom-tree.action" ></function>
+		<function path="/portal/format.action" ></function>
+		<function path="/portal/get-data.action" ></function>
+		<function path="/portal/show-data-selection.action" ></function>
+		<function path="/portal/querySetting.action" ></function>
+		<function path="/portal/export-data.action" ></function>
+		<function path="/portal/controlType.action" ></function>
+</functions>

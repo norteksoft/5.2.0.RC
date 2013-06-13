@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<bean type="org.apache.struts2.convention.ActionConfigBuilder" name="iMatrixActionConfigBuilder" class="com.norteksoft.product.web.struts2.ActionConfigBuilder"/>
+	<constant name="struts.convention.actionConfigBuilder" value="iMatrixActionConfigBuilder"/>
+
+    <!--<constant name="struts.devMode" value="true" />-->
+	<constant name="struts.convention.classes.reload" value="true" />
+	
+	<constant name="struts.convention.result.path" value="/WEB-INF/jsp/" />
+	<constant name="struts.convention.action.packages" value="com.norteksoft.acs.web,com.norteksoft.portal.web,com.norteksoft.bs,com.norteksoft.mms,com.norteksoft.task.web,com.norteksoft.wf,com.norteksoft.tags.tree.web" />
+	<constant name="struts.convention.package.locators.disable" value="true" />
+	<constant name="struts.custom.i18n.resources" value="portal,wfMessages,mmsMessages,bsMessages,acs,taskMessages" />
+	<constant name="struts.action.extension" value="htm,action" />
+	<constant name="struts.convention.exclude.packages" value="com.norteksoft.portal.base.web.struts2.*" />
+
+	<!-- 用于CRUD Action的parent package -->
+	<package name="default" extends="struts-default">
+		<!-- 基于paramsPrepareParamsStack,增加store interceptor -->
+		<interceptors>
+			<interceptor-stack name="storeStack">
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
+				<interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="storeStack" />
+		
+		<default-action-ref name="pagenotfound"></default-action-ref>
+		
+		
+		<action name="pagenotfound"> 
+			<result>/portal/exception-handle.action?type=404</result> 
+		</action>
+	</package>
+	
+	<!-- 
+		使用Convention插件,实现约定大于配置的零配置文件风格.
+	           特殊的Result路径在Action类中使用@Result设定. 
+	           http://localhost:8080/wf/config-browser/index.html
+	-->
+</struts>
